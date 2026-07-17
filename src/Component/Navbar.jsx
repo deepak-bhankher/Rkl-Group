@@ -72,11 +72,11 @@ export default function Navbar() {
             </button>
 
             {/* Logo */}
-            <a href="#" className="flex justify-center ">
+            <a href="#" className="flex items-center justify-center h-11 w-11 shrink-0">
               <img
                 src="/logo.png"
                 alt="Velora"
-                className="w-14 object-contain"
+                className="h-full w-full object-contain"
               />
             </a>
 
