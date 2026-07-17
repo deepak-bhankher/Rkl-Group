@@ -57,7 +57,7 @@ export default function Navbar() {
         className="sticky top-0 z-50 transition-shadow duration-300 relative overflow-hidden"
         style={{
           background:
-            "linear-gradient(115deg, #0B1B3A 0%, #7A1F2B 30%, #8C2233 50%, #6E1826 68%, #0F0A0C 100%)",
+            "linear-gradient(90deg, #9A2338 0%, #7A1F2B 22%, #4A2038 42%, #16244A 62%, #0B1B3A 100%)",
           boxShadow: scrolled ? "0 6px 24px rgba(0,0,0,0.35)" : "0 1px 0 rgba(255,255,255,0.06)",
         }}
       >
@@ -69,11 +69,11 @@ export default function Navbar() {
               "linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.10) 48%, rgba(255,255,255,0.02) 55%, transparent 65%)",
           }}
         />
-        {/* soft gold glow accent */}
+        {/* soft red glow accent behind the logo */}
         <div
           className="pointer-events-none absolute -top-10 left-0 h-40 w-72"
           style={{
-            background: "radial-gradient(circle, rgba(201,162,39,0.35), transparent 70%)",
+            background: "radial-gradient(circle, rgba(154,35,56,0.45), transparent 70%)",
             filter: "blur(10px)",
           }}
         />
@@ -109,33 +109,20 @@ export default function Navbar() {
               />
             </a>
 
-            {/* Search — desktop */}
-            <div className="hidden md:flex flex-1 max-w-xl mx-4">
+            {/* Right side: search (desktop) + icons */}
+            <div className="hidden md:flex items-center gap-3 ml-auto">
               <div
-                className="flex w-full items-center gap-2 rounded-full px-4 py-2 transition-colors"
+                className="flex items-center gap-2 rounded-full px-3.5 py-2 w-48 lg:w-64 transition-colors"
                 style={{ background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.16)" }}
               >
-                <Search size={17} style={{ color: C.silver }} />
+                <Search size={15} style={{ color: C.silver }} />
                 <input
                   type="text"
-                  placeholder="Search for products, brands and more"
+                  placeholder="Search..."
                   className="w-full bg-transparent text-sm outline-none placeholder:text-[13px]"
                   style={{ color: C.white }}
                 />
               </div>
-            </div>
-
-            {/* Right icons */}
-            <div className="flex items-center gap-1 ml-auto">
-              {/* mobile search toggle */}
-              <button
-                onClick={() => setSearchOpen((v) => !v)}
-                aria-label="Search"
-                className="md:hidden flex h-10 w-10 items-center justify-center rounded-full"
-                style={{ color: C.silver }}
-              >
-                <Search size={20} />
-              </button>
 
               <a
                 href="#"
@@ -145,6 +132,18 @@ export default function Navbar() {
               >
                 <User size={20} />
               </a>
+            </div>
+
+            {/* Mobile-only: search toggle + spacer */}
+            <div className="flex md:hidden items-center gap-1 ml-auto">
+              <button
+                onClick={() => setSearchOpen((v) => !v)}
+                aria-label="Search"
+                className="flex h-10 w-10 items-center justify-center rounded-full"
+                style={{ color: C.silver }}
+              >
+                <Search size={20} />
+              </button>
             </div>
           </div>
 
