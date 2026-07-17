@@ -19,12 +19,13 @@ const C = {
   ink: "#1C2333",
 };
 
-const CATEGORIES = [
-  { label: "New Arrivals", href: "#" },
-  { label: "Women", href: "#" },
-  { label: "Men", href: "#" },
-  { label: "Accessories", href: "#" },
-  { label: "Home & Living", href: "#" },
+// 👇 Ye ab tere 5 sections hain — center me align honge
+const NAV_ITEMS = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Category", href: "#category" },
+  { label: "Product", href: "#product" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
@@ -146,25 +147,23 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ---- Category strip — desktop ---- */}
+        {/* ---- Section strip — desktop, centered ---- */}
         <div
           className="hidden lg:block"
           style={{ background: C.navyDeep, borderTop: "1px solid rgba(255,255,255,0.06)" }}
         >
           <div className="mx-auto max-w-7xl px-10">
-            <ul className="flex items-center gap-8">
-              {CATEGORIES.map((c) => (
-                <li key={c.label} className="relative">
+            <ul className="flex items-center justify-center gap-10">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.label} className="relative">
                   <a
-                    href={c.href}
+                    href={item.href}
                     className="group relative flex items-center gap-1 py-3 text-[13px] font-medium tracking-wide transition-colors"
-                    style={{ color: c.accent ? C.goldLight : "rgba(255,255,255,0.82)" }}
+                    style={{ color: "rgba(255,255,255,0.82)" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = C.goldLight)}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.82)")}
                   >
-                    {c.label}
-                    <ChevronDown
-                      size={13}
-                      className="opacity-50 transition-transform duration-200 group-hover:rotate-180"
-                    />
+                    {item.label}
                     <span
                       className="absolute bottom-0 left-1/2 h-[2px] w-0 -translate-x-1/2 transition-all duration-300 ease-out group-hover:w-[85%]"
                       style={{ background: C.gold }}
@@ -225,15 +224,15 @@ export default function Navbar() {
         </div>
 
         <div className="flex flex-col gap-1 px-3 pt-4 overflow-y-auto">
-          {CATEGORIES.map((c) => (
+          {NAV_ITEMS.map((item) => (
             <a
-              key={c.label}
-              href={c.href}
+              key={item.label}
+              href={item.href}
               onClick={() => setOpen(false)}
               className="flex items-center justify-between rounded-lg px-3 py-3.5 text-base font-medium"
-              style={{ color: c.accent ? C.goldLight : "rgba(255,255,255,0.9)" }}
+              style={{ color: "rgba(255,255,255,0.9)" }}
             >
-              {c.label}
+              {item.label}
               <ChevronDown size={16} className="-rotate-90" style={{ color: C.silver }} />
             </a>
           ))}
@@ -270,12 +269,6 @@ export default function Navbar() {
           </a>
         </div>
       </div>
-
-      {/* ---- Page content goes below the navbar ---- */}
-      <div
-        className="min-h-[60vh]"
-        style={{ background: `linear-gradient(180deg, ${C.white}, #F4F5F7)` }}
-      />
     </div>
   );
 }
