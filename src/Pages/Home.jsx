@@ -4,6 +4,7 @@ import Home3 from "../Component/Home/Home3";
 import Home4 from "../Component/Home/Home4";
 import Home5 from "../Component/Home/Home5";
 import Home6 from "../Component/Home/Home6";
+import Home7 from "../Component/Home/Home7";
 
 function Home () {
     return (
@@ -14,6 +15,7 @@ function Home () {
 <Home4/>
 <Home5/>
 <Home6/>
+<Home7/>
 
         </div>
     )

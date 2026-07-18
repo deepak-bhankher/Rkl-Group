@@ -22,11 +22,11 @@ const C = {
 
 // 👇 Ye ab tere 5 sections hain — center me align honge
 const NAV_ITEMS = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Categories", href: "#category" },
-  { label: "Product", href: "#product" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Categories", href: "/category" },
+  { label: "Product", href: "/product" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
