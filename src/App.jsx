@@ -16,6 +16,8 @@ import Products from './Pages/Products'
 import DesignStudio from './Pages/DesignStudio'
 import ScrollToTop from './Component/ScrollToTop'
 import Contact from './Pages/Contact'
+import ReviewDesign from './Pages/ReviewDesign'
+import Cart from './Pages/Cart'
 
 const App = () => {
   return (
@@ -37,6 +39,8 @@ const App = () => {
           <Route path='/product' element={<Products/>}/>
           <Route path='design-studio' element={<DesignStudio/>}/>
           <Route path='/contact' element={<Contact/>}/>
+          <Route path='/review-design' element={<ReviewDesign/>}/>
+          <Route path='/cart' element={<Cart/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>

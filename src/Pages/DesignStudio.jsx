@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Type,
@@ -45,6 +45,8 @@ const TOOLS = [
 
 export default function DesignStudio() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const productInfo = location.state || { name: "Your Product", unitPrice: 0, qty: 1 };
   const [activeTool, setActiveTool] = useState("uploads");
   const [dragOver, setDragOver] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -86,8 +88,9 @@ export default function DesignStudio() {
       setTimeout(() => setShowWarning(false), 2500);
       return;
     }
-    // Design ready — go back to the product page (or swap for navigate("/cart") etc.)
-    navigate(-1);
+    navigate("/review-design", {
+      state: { ...productInfo, image: uploadedImage, contrast, recolor, inverted },
+    });
   };
 
   return (
@@ -102,7 +105,7 @@ export default function DesignStudio() {
             V
           </Link>
           <span className="hidden sm:block text-[15px] font-bold" style={{ color: C.ink }}>
-            Fidgety
+            {productInfo.name}
           </span>
           <div className="hidden sm:flex items-center gap-1 pl-2" style={{ borderLeft: "1px solid rgba(11,27,58,0.12)" }}>
             <button className="flex h-8 w-8 items-center justify-center rounded-md opacity-40">
@@ -120,13 +123,13 @@ export default function DesignStudio() {
             Preview
           </button>
           <span className="text-[14px] font-bold" style={{ color: C.navy }}>
-            Rs.1,500.00
+            ₹{((productInfo.unitPrice || 0) * (productInfo.qty || 1)).toLocaleString("en-IN")}.00
           </span>
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleNext}
-            className="rounded-full cursor-pointer px-4 sm:px-5 py-2 text-[13px] font-semibold"
+            className="rounded-full px-4 sm:px-5 py-2 text-[13px] font-semibold"
             style={{ background: C.navy, color: C.goldLight }}
           >
             Next
@@ -179,7 +182,7 @@ export default function DesignStudio() {
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => fileInputRef.current?.click()}
-                className="flex w-full items-center cursor-pointer justify-center gap-2 rounded-lg py-3 text-[13.5px] font-semibold"
+                className="flex w-full items-center justify-center gap-2 rounded-lg py-3 text-[13.5px] font-semibold"
                 style={{ background: C.gold, color: C.navy }}
               >
                 <Plus size={16} />
@@ -251,7 +254,7 @@ export default function DesignStudio() {
                   <div className="flex flex-col items-center gap-2 text-center px-4">
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="flex items-center cursor-pointer gap-2 rounded-full px-4 py-2.5 text-[13px] font-semibold"
+                      className="flex items-center gap-2 rounded-full px-4 py-2.5 text-[13px] font-semibold"
                       style={{ background: C.white, color: C.ink }}
                     >
                       <UploadCloud size={16} />

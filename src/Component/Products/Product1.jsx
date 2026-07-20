@@ -2,22 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ShoppingBag,
-  Heart,
   Star,
   ChevronRight,
-  Minus,
-  Plus,
+  ChevronDown,
   Truck,
-  ShieldCheck,
-  Undo2,
-  Stamp,
-  Sun,
-  Printer,
-  Sticker,
-  Check,
+  UploadCloud,
   ImageOff,
-  Palette,
 } from "lucide-react";
 
 const C = {
@@ -34,27 +24,14 @@ const C = {
 
 // 👉 Image paths yaha daalna — public folder me files rakh ke path likh dena
 // e.g. "/products/fidgety/1.jpg"
-const GALLERY = ["", "", "", ""];
+const GALLERY = ["home20.png", "home21.png","home19.png"];
 
-const BRANDING_OPTIONS = [
-  { id: "engrave", label: "Engrave", icon: Stamp, desc: "Laser etched, permanent" },
-  { id: "uv", label: "UV Printing", icon: Sun, desc: "Full colour, glossy finish" },
-  { id: "screen", label: "Screen Printing", icon: Printer, desc: "Bold single-tone logo" },
-  { id: "dtf", label: "DTF Sticker", icon: Sticker, desc: "Peel & stick, quick turnaround" },
-];
+const UNIT_PRICE = 22; // price per unit at 50 qty
+const QTY_TIERS = [25, 50, 100, 250, 500];
+const TIER_FACTOR = { 25: 1.15, 50: 1, 100: 0.9, 250: 0.8, 500: 0.65 };
+const SIZE_OPTIONS = ["Standard", "Compact", "Large"];
 
-const COLORS = [
-  { id: "navy", label: "Navy", hex: "#0B1B3A" },
-  { id: "black", label: "Black", hex: "#1C2333" },
-  { id: "gold", label: "Gold", hex: "#C9A227" },
-];
-
-const RELATED = [
-  { name: "Tango", price: 1099, code: "UG-GS13" },
-  { name: "Buzz", price: 1999, code: "UG-GS16" },
-  { name: "Rove", price: 1299, code: "UG-GS27" },
-  { name: "Volt 10K", price: 999, code: "UG-PB10" },
-];
+const RELATED = [{"name": "Tango", "code": "UG-GS13", "price": 1099}, {"name": "Buzz", "code": "UG-GS16", "price": 1999}, {"name": "Rove", "code": "UG-GS27", "price": 1299}, {"name": "Volt 10K", "code": "UG-PB10", "price": 999}];
 
 function GalleryImage({ src }) {
   if (!src) {
@@ -69,10 +46,12 @@ function GalleryImage({ src }) {
 
 export default function Product1() {
   const [activeImg, setActiveImg] = useState(0);
-  const [branding, setBranding] = useState("engrave");
-  const [color, setColor] = useState("navy");
-  const [qty, setQty] = useState(1);
+  const [size, setSize] = useState(SIZE_OPTIONS[0]);
+  const [qty, setQty] = useState(50);
   const [tab, setTab] = useState("description");
+
+  const unitForQty = Math.round(UNIT_PRICE * TIER_FACTOR[qty]);
+  const total = unitForQty * qty;
 
   return (
     <div style={{ fontFamily: "Inter, system-ui, sans-serif", background: C.paper, minHeight: "100vh" }}>
@@ -125,155 +104,115 @@ export default function Product1() {
           </div>
         </div>
 
-        {/* ============ Info panel + SECTION 2 — FILTER ============ */}
+        {/* ============ SECTION 2 — INFO PANEL (VistaPrint style) ============ */}
         <div>
           <h1 className="text-[26px] sm:text-[30px] font-extrabold" style={{ color: C.ink }}>
             Fidgety
           </h1>
-          <p className="mt-1 text-[13.5px]" style={{ color: "#7A8092" }}>
-            3-in-1 Wireless Charger + Mobile Holder + Fidget Toy · Item Code UG-GC34
-          </p>
 
           <div className="mt-2 flex items-center gap-2">
             <div className="flex items-center gap-0.5">
-              {[1, 2, 3, 4, 5].map((s) => (
+              {[1, 2, 3, 4].map((s) => (
                 <Star key={s} size={15} fill={C.gold} style={{ color: C.gold }} />
               ))}
+              <Star size={15} style={{ color: "#D8D5CC" }} />
             </div>
             <span className="text-[12.5px]" style={{ color: "#7A8092" }}>
-              4.8 (126 reviews)
+              4 (3)
             </span>
           </div>
 
-          <div className="mt-4 flex items-baseline gap-2">
+          <p className="mt-3 text-[13.5px]" style={{ color: "#5B6072" }}>
+            Get your logo noticed with this handy 3-in-1 charging stand
+          </p>
+
+          <div className="mt-4 pt-4" style={{ borderTop: "1px solid rgba(11,27,58,0.08)" }}>
+            <p className="text-[12.5px]" style={{ color: "#7A8092" }}>
+              Price below is MRP (inclusive of all taxes)
+            </p>
+            <button className="text-[12.5px] font-semibold underline mt-0.5" style={{ color: C.navy }}>
+              See Details
+            </button>
+          </div>
+
+          <div className="mt-3 flex items-baseline gap-2">
             <span className="text-[28px] font-extrabold" style={{ color: C.navy }}>
-              Rs.1099.00
-            </span>
-            <span className="text-[15px] line-through" style={{ color: "#B8BCC2" }}>
-              Rs.1399.00
-            </span>
-            <span className="text-[12.5px] font-semibold" style={{ color: "#2F7D46" }}>
-              21% off
+              ₹{total.toLocaleString("en-IN")}.00
             </span>
           </div>
+          <p className="text-[12.5px]" style={{ color: "#7A8092" }}>
+            ₹{unitForQty}.00 each / {qty} units
+          </p>
 
-          {/* ---- Color swatches ---- */}
-          <div className="mt-6">
-            <p className="text-[13px] font-semibold mb-2" style={{ color: C.ink }}>
-              Color — {COLORS.find((c) => c.id === color)?.label}
-            </p>
-            <div className="flex items-center gap-2.5">
-              {COLORS.map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => setColor(c.id)}
-                  className="h-8 w-8 rounded-full flex items-center justify-center"
-                  style={{ background: c.hex, border: color === c.id ? `2px solid ${C.navy}` : "2px solid transparent", boxShadow: "0 0 0 1px rgba(11,27,58,0.15)" }}
-                >
-                  {color === c.id && <Check size={14} color={c.id === "gold" ? C.navy : C.white} />}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* ============ SECTION 2 — FILTER (4 branding options) ============ */}
-          <div className="mt-6">
-            <p className="text-[13px] font-semibold mb-2" style={{ color: C.ink }}>
-              Branding Option
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              {BRANDING_OPTIONS.map((opt) => {
-                const Icon = opt.icon;
-                const active = branding === opt.id;
-                return (
-                  <motion.button
-                    key={opt.id}
-                    onClick={() => setBranding(opt.id)}
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="flex flex-col items-center gap-1.5 rounded-xl px-2.5 py-3 text-center transition-colors"
-                    style={{
-                      border: active ? `1.5px solid ${C.gold}` : "1px solid rgba(11,27,58,0.12)",
-                      background: active ? "rgba(201,162,39,0.08)" : C.white,
-                    }}
-                  >
-                    <Icon size={18} style={{ color: active ? C.gold : "#7A8092" }} />
-                    <span className="text-[11.5px] font-semibold" style={{ color: active ? C.ink : "#7A8092" }}>
-                      {opt.label}
-                    </span>
-                    <span className="text-[10px] leading-tight" style={{ color: "#9CA0AA" }}>
-                      {opt.desc}
-                    </span>
-                  </motion.button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* ---- Quantity + actions ---- */}
-          <div className="mt-6 flex items-center gap-3">
-            <div className="flex items-center rounded-full" style={{ border: "1px solid rgba(11,27,58,0.15)" }}>
-              <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="flex h-9 w-9 items-center justify-center">
-                <Minus size={14} style={{ color: C.ink }} />
+          <div className="mt-4 flex flex-col gap-1.5 text-[12.5px]" style={{ color: C.ink }}>
+            <span className="flex items-center gap-2">
+              <Truck size={15} style={{ color: "#7A8092" }} />
+              Delivery to 110001{" "}
+              <button className="font-semibold underline" style={{ color: C.navy }}>
+                More information
               </button>
-              <span className="w-8 text-center text-[13px] font-semibold" style={{ color: C.ink }}>
-                {qty}
-              </span>
-              <button onClick={() => setQty((q) => q + 1)} className="flex h-9 w-9 items-center justify-center">
-                <Plus size={14} style={{ color: C.ink }} />
-              </button>
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-[13.5px] font-semibold"
-              style={{ background: C.navy, color: C.goldLight }}
-            >
-              <ShoppingBag size={16} />
-              Add to Cart
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.06 }}
-              whileTap={{ scale: 0.94 }}
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
-              style={{ border: "1px solid rgba(11,27,58,0.15)" }}
-            >
-              <Heart size={17} style={{ color: C.maroon }} />
-            </motion.button>
+            </span>
+            <span className="flex items-center gap-2 ml-[23px]" style={{ color: "#2F7D46", fontWeight: 600 }}>
+              28 July · FREE
+            </span>
           </div>
 
-          {/* ---- Upload your own design ---- */}
-          <Link to="/design-studio">
+          {/* ---- Size ---- */}
+          <div className="mt-6">
+            <label className="text-[13px] font-semibold mb-1.5 block" style={{ color: C.ink }}>
+              Size
+            </label>
+            <div className="relative">
+              <select
+                value={size}
+                onChange={(e) => setSize(e.target.value)}
+                className="w-full appearance-none rounded-lg px-4 py-3 text-[13.5px] font-medium outline-none"
+                style={{ border: "1px solid rgba(11,27,58,0.2)", color: C.ink, background: C.white }}
+              >
+                {SIZE_OPTIONS.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown size={15} className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" style={{ color: "#7A8092" }} />
+            </div>
+          </div>
+
+          {/* ---- Quantity ---- */}
+          <div className="mt-4">
+            <label className="text-[13px] font-semibold mb-1.5 block" style={{ color: C.ink }}>
+              Quantity
+            </label>
+            <div className="relative">
+              <select
+                value={qty}
+                onChange={(e) => setQty(Number(e.target.value))}
+                className="w-full appearance-none rounded-lg px-4 py-3 text-[13.5px] font-medium outline-none"
+                style={{ border: "1px solid rgba(11,27,58,0.2)", color: C.ink, background: C.white }}
+              >
+                {QTY_TIERS.map((q) => (
+                  <option key={q} value={q}>
+                    {q} (₹{Math.round(UNIT_PRICE * TIER_FACTOR[q])}.00 / unit)
+                  </option>
+                ))}
+              </select>
+              <ChevronDown size={15} className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" style={{ color: "#7A8092" }} />
+            </div>
+          </div>
+
+          {/* ---- Upload design ---- */}
+          <Link to="/design-studio" state={{ name: "Fidgety", unitPrice: unitForQty, qty, size }}>
             <motion.div
-              whileHover={{ y: -2 }}
-              className="mt-3 flex items-center justify-center gap-2 rounded-full py-3 text-[13.5px] font-semibold"
-              style={{ border: `1.5px dashed ${C.gold}`, color: C.ink, background: "rgba(201,162,39,0.06)" }}
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              className="mt-6 flex items-center justify-center gap-2 rounded-lg py-3.5 text-[14px] font-bold"
+              style={{ background: C.gold, color: C.navy }}
             >
-              <Palette size={16} style={{ color: C.gold }} />
-              Upload Your Design
+              Upload design
+              <UploadCloud size={17} />
             </motion.div>
           </Link>
-
-          {/* ---- Trust badges ---- */}
-          <div className="mt-6 grid grid-cols-3 gap-3">
-            {[
-              { icon: Truck, label: "Bulk delivery in 7-10 days" },
-              { icon: ShieldCheck, label: "1 year warranty" },
-              { icon: Undo2, label: "Easy 7-day returns" },
-            ].map((b, i) => {
-              const Icon = b.icon;
-              return (
-                <div key={i} className="flex flex-col items-center gap-1.5 rounded-xl py-3 text-center" style={{ background: C.white, border: "1px solid rgba(11,27,58,0.08)" }}>
-                  <Icon size={17} style={{ color: C.navy }} />
-                  <span className="text-[10.5px] leading-tight" style={{ color: "#5B6072" }}>
-                    {b.label}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
         </div>
       </div>
 
@@ -289,7 +228,7 @@ export default function Product1() {
             >
               {t}
               {tab === t && (
-                <motion.div layoutId="tabLine" className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: C.gold }} />
+                <motion.div layoutId="tabLine-Product1" className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: C.gold }} />
               )}
             </button>
           ))}
@@ -305,13 +244,7 @@ export default function Product1() {
             className="pt-5 text-[13.5px] leading-relaxed"
             style={{ color: "#5B6072" }}
           >
-            {tab === "description" && (
-              <p>
-                Fidgety is a 3-in-1 wireless charging station that keeps your desk clutter-free. Charge your phone,
-                earbuds and watch together, use the built-in stand to prop up your device for calls, and keep restless
-                hands busy with the fidget toy base — all wrapped in a warm bamboo finish that fits any workspace.
-              </p>
-            )}
+            {tab === "description" && <p>Fidgety is a 3-in-1 wireless charging station that keeps your desk clutter-free. Charge your phone, earbuds and watch together, use the built-in stand to prop up your device for calls, and keep restless hands busy with the fidget toy base — all wrapped in a warm bamboo finish that fits any workspace.</p>}
             {tab === "specifications" && (
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
                 <li>Dimensions: 10 x 8 x 3cm</li>
@@ -324,44 +257,11 @@ export default function Product1() {
             )}
             {tab === "reviews" && (
               <div className="flex flex-col gap-3">
-                <p>4.8 out of 5 based on 126 reviews. Customers highlight the sturdy build and fast charging speed.</p>
+                <p>4 out of 5 based on 3 reviews. Customers highlight the build quality and finish.</p>
               </div>
             )}
           </motion.div>
         </AnimatePresence>
-      </div>
-
-      {/* ============ SECTION 4 — YOU MAY ALSO LIKE ============ */}
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pb-14">
-        <h2 className="text-[19px] font-bold mb-4" style={{ color: C.ink }}>
-          You may also like
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {RELATED.map((p, i) => (
-            <motion.div
-              key={p.code}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: i * 0.06 }}
-              whileHover={{ y: -4 }}
-              className="rounded-2xl overflow-hidden"
-              style={{ background: C.white, border: "1px solid rgba(11,27,58,0.08)" }}
-            >
-              <div style={{ aspectRatio: "1 / 1" }}>
-                <GalleryImage src="" />
-              </div>
-              <div className="p-3">
-                <p className="text-[13px] font-bold" style={{ color: C.ink }}>
-                  {p.name}
-                </p>
-                <p className="text-[13px] font-bold mt-0.5" style={{ color: C.navy }}>
-                  Rs.{p.price}.00
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </div>
   );
