@@ -43,25 +43,19 @@ export default function ReviewDesign() {
             style={{ aspectRatio: "4 / 3", background: "linear-gradient(135deg, #c99a5f 0%, #b9863f 45%, #a97934 100%)" }}
           >
             {data.image ? (
+              // The image coming in is already the final, edited version
+              // (contrast, recolor, rotation and zoom are baked into the
+              // pixels in Design Studio) — render it as-is, no filters here.
               <img
                 src={data.image}
                 alt="Your design"
                 className="w-2/3 h-2/3 object-contain"
-                style={{
-                  filter: `contrast(${data.contrast || 100}%) ${data.inverted ? "invert(1)" : ""}`,
-                }}
               />
             ) : (
               <div className="flex flex-col items-center gap-2" style={{ color: "rgba(255,255,255,0.7)" }}>
                 <ImageOff size={26} />
                 <span className="text-[12px]">No design uploaded</span>
               </div>
-            )}
-            {data.recolor && (
-              <div
-                className="absolute inset-0 pointer-events-none flex items-center justify-center"
-                style={{ background: data.recolor, mixBlendMode: "color", opacity: 0.5 }}
-              />
             )}
           </div>
         </motion.div>

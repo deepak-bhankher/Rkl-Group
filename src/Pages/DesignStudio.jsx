@@ -16,6 +16,8 @@ import {
   Contrast,
   Palette,
   RotateCcw,
+  RotateCw,
+  Check,
 } from "lucide-react";
 
 const C = {
@@ -31,10 +33,10 @@ const C = {
 };
 
 const RECOLOR_SWATCHES = [
-  { id: "black", hex: "#1C2333" },
-  { id: "blue", hex: "#2b3a9e" },
-  { id: "green", hex: "#1fa97a" },
-  { id: "red", hex: "#d33f3f" },
+  { id: "black", label: "Black", hex: "#1C2333" },
+  { id: "blue", label: "Blue", hex: "#2b3a9e" },
+  { id: "green", label: "Green", hex: "#1fa97a" },
+  { id: "red", label: "Red", hex: "#d33f3f" },
 ];
 
 const TOOLS = [
@@ -55,7 +57,9 @@ export default function DesignStudio() {
   const [recolor, setRecolor] = useState(null);
   const [inverted, setInverted] = useState(false);
   const [zoom, setZoom] = useState(100);
+  const [rotation, setRotation] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
+  const [isBaking, setIsBaking] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleFile = (file) => {
@@ -80,17 +84,79 @@ export default function DesignStudio() {
   const removeImage = () => {
     setUploadedImage(null);
     resetAdjustments();
+    setZoom(100);
+    setRotation(0);
   };
 
-  const handleNext = () => {
+  const rotateLeft = () => setRotation((r) => r - 90);
+  const rotateRight = () => setRotation((r) => r + 90);
+  const resetTransform = () => {
+    setZoom(100);
+    setRotation(0);
+  };
+
+  // Bakes contrast, recolor, rotation and zoom permanently into the actual
+  // image pixels using a canvas, so every later screen (Review, Cart, etc.)
+  // shows exactly what was edited here — not the raw original upload.
+  const bakeFinalImage = () =>
+    new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const CANVAS_SIZE = 1000;
+        const canvas = document.createElement("canvas");
+        canvas.width = CANVAS_SIZE;
+        canvas.height = CANVAS_SIZE;
+        const ctx = canvas.getContext("2d");
+
+        // fit image inside canvas like object-contain
+        const fitScale = Math.min(CANVAS_SIZE / img.width, CANVAS_SIZE / img.height);
+        const drawW = img.width * fitScale;
+        const drawH = img.height * fitScale;
+
+        ctx.save();
+        ctx.translate(CANVAS_SIZE / 2, CANVAS_SIZE / 2);
+        ctx.rotate((rotation * Math.PI) / 180);
+        ctx.scale(zoom / 100, zoom / 100);
+        ctx.filter = `contrast(${contrast}%) ${inverted ? "invert(1)" : ""}`;
+        ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+
+        if (recolor) {
+          ctx.filter = "none";
+          ctx.globalCompositeOperation = "color";
+          ctx.globalAlpha = 0.85;
+          ctx.fillStyle = recolor;
+          ctx.fillRect(-drawW / 2, -drawH / 2, drawW, drawH);
+          ctx.globalCompositeOperation = "source-over";
+          ctx.globalAlpha = 1;
+        }
+        ctx.restore();
+
+        resolve(canvas.toDataURL("image/png"));
+      };
+      img.onerror = reject;
+      img.src = uploadedImage;
+    });
+
+  const handleNext = async () => {
     if (!uploadedImage) {
       setShowWarning(true);
       setTimeout(() => setShowWarning(false), 2500);
       return;
     }
-    navigate("/review-design", {
-      state: { ...productInfo, image: uploadedImage, contrast, recolor, inverted },
-    });
+    setIsBaking(true);
+    try {
+      const finalImage = await bakeFinalImage();
+      navigate("/review-design", {
+        state: { ...productInfo, image: finalImage, contrast, recolor, inverted, zoom, rotation },
+      });
+    } catch {
+      // fallback: still proceed with the original image if baking fails
+      navigate("/review-design", {
+        state: { ...productInfo, image: uploadedImage, contrast, recolor, inverted, zoom, rotation },
+      });
+    } finally {
+      setIsBaking(false);
+    }
   };
 
   return (
@@ -129,10 +195,11 @@ export default function DesignStudio() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleNext}
-            className="rounded-full px-4 sm:px-5 py-2 text-[13px] font-semibold"
+            disabled={isBaking}
+            className="rounded-full px-4 sm:px-5 py-2 text-[13px] font-semibold disabled:opacity-60"
             style={{ background: C.navy, color: C.goldLight }}
           >
-            Next
+            {isBaking ? "Preparing..." : "Next"}
           </motion.button>
         </div>
       </div>
@@ -265,19 +332,27 @@ export default function DesignStudio() {
                     </span>
                   </div>
                 ) : (
-                  <div className="relative h-full w-full group">
+                  <div className="relative h-full w-full group flex items-center justify-center">
                     <img
                       src={uploadedImage}
                       alt="Your design"
-                      className="h-full w-full object-contain"
+                      className="max-h-full max-w-full object-contain"
                       style={{
                         filter: `contrast(${contrast}%) ${inverted ? "invert(1)" : ""}`,
+                        transform: `scale(${zoom / 100}) rotate(${rotation}deg)`,
+                        transition: "transform 0.2s ease",
                       }}
                     />
                     {recolor && (
                       <div
                         className="absolute inset-0 pointer-events-none"
-                        style={{ background: recolor, mixBlendMode: "color", opacity: 0.85 }}
+                        style={{
+                          background: recolor,
+                          mixBlendMode: "color",
+                          opacity: 0.85,
+                          transform: `scale(${zoom / 100}) rotate(${rotation}deg)`,
+                          transition: "transform 0.2s ease",
+                        }}
                       />
                     )}
                     <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -307,7 +382,7 @@ export default function DesignStudio() {
             </div>
           </div>
 
-          {/* ============ SECTION D — ZOOM BAR ============ */}
+          {/* ============ SECTION D — ZOOM + ROTATE BAR ============ */}
           <div
             className="mt-6 flex items-center gap-3 rounded-full px-4 py-2"
             style={{ background: C.white, boxShadow: "0 4px 16px rgba(11,27,58,0.12)" }}
@@ -321,8 +396,21 @@ export default function DesignStudio() {
             <button onClick={() => setZoom((z) => Math.min(200, z + 10))} className="flex h-7 w-7 items-center justify-center rounded-full" style={{ background: "#F1F0EC" }}>
               <Plus size={13} style={{ color: C.ink }} />
             </button>
+
             <div className="w-px h-5" style={{ background: "rgba(11,27,58,0.12)" }} />
-            <button className="flex h-7 w-7 items-center justify-center rounded-full" style={{ background: "#F1F0EC" }}>
+
+            <button onClick={rotateLeft} title="Rotate left" className="flex h-7 w-7 items-center justify-center rounded-full" style={{ background: "#F1F0EC" }}>
+              <RotateCcw size={13} style={{ color: C.ink }} />
+            </button>
+            <span className="text-[12.5px] font-semibold w-9 text-center" style={{ color: C.ink }}>
+              {rotation % 360}°
+            </span>
+            <button onClick={rotateRight} title="Rotate right" className="flex h-7 w-7 items-center justify-center rounded-full" style={{ background: "#F1F0EC" }}>
+              <RotateCw size={13} style={{ color: C.ink }} />
+            </button>
+
+            <div className="w-px h-5" style={{ background: "rgba(11,27,58,0.12)" }} />
+            <button onClick={resetTransform} title="Reset zoom & rotation" className="flex h-7 w-7 items-center justify-center rounded-full" style={{ background: "#F1F0EC" }}>
               <Settings size={13} style={{ color: C.ink }} />
             </button>
           </div>
@@ -375,21 +463,70 @@ export default function DesignStudio() {
                 />
               </div>
 
-              {/* Recolor */}
+              {/* Rotate (also available inside modal for convenience) */}
               <div className="mb-5">
                 <p className="flex items-center gap-1.5 text-[13px] font-semibold mb-2" style={{ color: C.ink }}>
-                  <Palette size={14} />
-                  Available colors
+                  <RotateCw size={14} />
+                  Rotate design
                 </p>
                 <div className="flex items-center gap-2.5">
-                  {RECOLOR_SWATCHES.map((s) => (
-                    <button
-                      key={s.id}
-                      onClick={() => setRecolor(recolor === s.hex ? null : s.hex)}
-                      className="h-9 w-9 rounded-full"
-                      style={{ background: s.hex, border: recolor === s.hex ? `3px solid ${C.gold}` : "3px solid transparent", boxShadow: "0 0 0 1px rgba(11,27,58,0.15)" }}
-                    />
-                  ))}
+                  <button
+                    onClick={rotateLeft}
+                    className="flex items-center gap-1.5 rounded-lg px-3.5 py-2.5 text-[12.5px] font-semibold"
+                    style={{ background: "#F1F0EC", color: C.ink }}
+                  >
+                    <RotateCcw size={13} />
+                    Left
+                  </button>
+                  <button
+                    onClick={rotateRight}
+                    className="flex items-center gap-1.5 rounded-lg px-3.5 py-2.5 text-[12.5px] font-semibold"
+                    style={{ background: "#F1F0EC", color: C.ink }}
+                  >
+                    <RotateCw size={13} />
+                    Right
+                  </button>
+                  <span className="text-[12.5px] font-semibold ml-auto" style={{ color: "#7A8092" }}>
+                    {rotation % 360}°
+                  </span>
+                </div>
+              </div>
+
+              {/* Recolor — made explicit so client understands it changes color */}
+              <div className="mb-5 rounded-xl p-3.5" style={{ background: "#F7F5F1", border: "1px solid rgba(11,27,58,0.08)" }}>
+                <p className="flex items-center gap-1.5 text-[13px] font-semibold mb-1" style={{ color: C.ink }}>
+                  <Palette size={14} />
+                  Change design color
+                </p>
+                <p className="text-[11.5px] mb-3" style={{ color: "#7A8092" }}>
+                  Tap a swatch to recolor your uploaded design
+                </p>
+                <div className="flex items-center gap-3">
+                  {RECOLOR_SWATCHES.map((s) => {
+                    const active = recolor === s.hex;
+                    return (
+                      <button
+                        key={s.id}
+                        onClick={() => setRecolor(active ? null : s.hex)}
+                        title={s.label}
+                        className="flex flex-col items-center gap-1"
+                      >
+                        <span
+                          className="relative flex h-9 w-9 items-center justify-center rounded-full"
+                          style={{
+                            background: s.hex,
+                            border: active ? `3px solid ${C.gold}` : "3px solid transparent",
+                            boxShadow: "0 0 0 1px rgba(11,27,58,0.15)",
+                          }}
+                        >
+                          {active && <Check size={14} style={{ color: C.white }} />}
+                        </span>
+                        <span className="text-[10px] font-medium" style={{ color: active ? C.navy : "#9CA0AA" }}>
+                          {s.label}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -403,12 +540,12 @@ export default function DesignStudio() {
                   Invert colors
                 </button>
                 <button
-                  onClick={resetAdjustments}
+                  onClick={() => { resetAdjustments(); resetTransform(); }}
                   className="flex items-center gap-1.5 rounded-lg px-3.5 py-2.5 text-[12.5px] font-semibold"
                   style={{ background: "#F1F0EC", color: C.ink }}
                 >
                   <RotateCcw size={13} />
-                  Reset
+                  Reset all
                 </button>
               </div>
 

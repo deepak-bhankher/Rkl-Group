@@ -160,7 +160,7 @@ export default function Cart() {
                       <button
                         onClick={removeItem}
                         aria-label="Remove item"
-                        className="shrink-0 flex items-center gap-1.5 text-[12.5px] font-semibold transition-colors"
+                        className="shrink-0 flex items-center cursor-pointer gap-1.5 text-[12.5px] font-semibold transition-colors"
                         style={{ color: C.muted }}
                         onMouseEnter={(e) => (e.currentTarget.style.color = "#9B1C2E")}
                         onMouseLeave={(e) => (e.currentTarget.style.color = C.muted)}
@@ -449,7 +449,7 @@ export default function Cart() {
               whileTap={{ scale: 0.985 }}
               transition={{ duration: 0.2 }}
               disabled={!item}
-              className="w-full rounded-lg py-3.5 text-[14px] font-extrabold tracking-wide disabled:opacity-40"
+              className="w-full rounded-lg cursor-pointer py-3.5 text-[14px] font-extrabold tracking-wide disabled:opacity-40"
               style={{ background: `linear-gradient(135deg, ${C.gold}, #B8901E)`, color: C.navyDeep }}
             >
               Proceed to Checkout
