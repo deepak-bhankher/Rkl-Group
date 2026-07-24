@@ -10,6 +10,17 @@ const C = {
   ink: "#1C2333",
 };
 
+function shade(hex, percent) {
+  const num = parseInt(hex.replace("#", ""), 16);
+  let r = (num >> 16) + Math.round(255 * (percent / 100));
+  let g = ((num >> 8) & 0x00ff) + Math.round(255 * (percent / 100));
+  let b = (num & 0x0000ff) + Math.round(255 * (percent / 100));
+  r = Math.max(0, Math.min(255, r));
+  g = Math.max(0, Math.min(255, g));
+  b = Math.max(0, Math.min(255, b));
+  return `rgb(${r},${g},${b})`;
+}
+
 const CHECKLIST = [
   "Text is clear and easy to read",
   "Information is spelled correctly",
@@ -20,6 +31,7 @@ export default function ReviewDesign() {
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state || {};
+  const boxColor = data.boxColor || "#B9863F";
   const [agreed, setAgreed] = useState(false);
 
   const handleContinue = () => {
@@ -29,28 +41,33 @@ export default function ReviewDesign() {
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
-      {/* ---- Left: preview ---- */}
+      {/* ---- Left: 3D box preview ---- */}
       <div className="flex items-center justify-center p-8 sm:p-14" style={{ background: "#F2F2F0" }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="relative w-full max-w-sm overflow-hidden rounded-md"
-          style={{ background: "#fff", boxShadow: "0 8px 24px rgba(11,27,58,0.1)" }}
+          className="relative w-full max-w-sm"
+          style={{ paddingTop: 30, paddingRight: 30 }}
         >
+          {/* TOP face */}
           <div
-            className="relative w-full flex items-center justify-center overflow-hidden"
-            style={{ aspectRatio: "4 / 3", background: "linear-gradient(135deg, #c99a5f 0%, #b9863f 45%, #a97934 100%)" }}
+            className="absolute rounded-sm"
+            style={{ top: 0, left: 15, right: 45, height: 30, background: shade(boxColor, 22), transform: "skewX(-38deg)", transformOrigin: "bottom left" }}
+          />
+          {/* SIDE face */}
+          <div
+            className="absolute rounded-sm"
+            style={{ top: 15, right: 0, bottom: 30, width: 30, background: shade(boxColor, -22), transform: "skewY(-38deg)", transformOrigin: "top left" }}
+          />
+
+          {/* FRONT face */}
+          <div
+            className="relative w-full flex items-center justify-center overflow-hidden rounded-md"
+            style={{ aspectRatio: "4 / 3", background: boxColor, boxShadow: "0 12px 30px rgba(11,27,58,0.15)" }}
           >
             {data.image ? (
-              // The image coming in is already the final, edited version
-              // (contrast, recolor, rotation and zoom are baked into the
-              // pixels in Design Studio) — render it as-is, no filters here.
-              <img
-                src={data.image}
-                alt="Your design"
-                className="w-2/3 h-2/3 object-contain"
-              />
+              <img src={data.image} alt="Your design" className="w-2/3 h-2/3 object-contain" />
             ) : (
               <div className="flex flex-col items-center gap-2" style={{ color: "rgba(255,255,255,0.7)" }}>
                 <ImageOff size={26} />

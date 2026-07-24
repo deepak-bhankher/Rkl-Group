@@ -26,11 +26,10 @@ export default function Cart() {
   const [item, setItem] = useState(
     incoming
       ? { ...incoming }
-      : { name: "Corrugated Boxes", unitPrice: 30, qty: 50, size: '4.5" x 4.5" x 3.5"', image: "" }
+      : { name: "Corrugated Boxes", unitPrice: 30, qty: 50, size: '4.5" x 4.5" x 3.5"', image: "", boxColor: "#B9863F" }
   );
 
   const itemTotal = (item?.unitPrice || 0) * (item?.qty || 1);
-  const shipping = itemTotal > 0 ? 0 : 0;
   const discount = promoApplied ? Math.round(itemTotal * 0.1) : 0;
   const subtotal = item ? itemTotal - discount : 0;
 
@@ -61,14 +60,8 @@ export default function Cart() {
         >
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span
-                className="inline-block h-[2px] w-6 rounded-full"
-                style={{ background: C.gold }}
-              />
-              <span
-                className="text-[11px] font-bold uppercase tracking-[0.18em]"
-                style={{ color: C.gold }}
-              >
+              <span className="inline-block h-[2px] w-6 rounded-full" style={{ background: C.gold }} />
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: C.gold }}>
                 Review &amp; Checkout
               </span>
             </div>
@@ -107,42 +100,26 @@ export default function Cart() {
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   whileHover={{ y: -2 }}
                   className="relative flex gap-5 rounded-2xl bg-white p-5 overflow-hidden"
-                  style={{
-                    border: `1px solid ${C.line}`,
-                    boxShadow: "0 1px 2px rgba(11,27,58,0.04), 0 12px 32px -18px rgba(11,27,58,0.18)",
-                  }}
+                  style={{ border: `1px solid ${C.line}`, boxShadow: "0 1px 2px rgba(11,27,58,0.04), 0 12px 32px -18px rgba(11,27,58,0.18)" }}
                 >
-                  {/* gold edge accent */}
-                  <span
-                    className="absolute left-0 top-0 h-full w-[3px]"
-                    style={{ background: `linear-gradient(180deg, ${C.gold}, ${C.goldSoft})` }}
-                  />
+                  <span className="absolute left-0 top-0 h-full w-[3px]" style={{ background: `linear-gradient(180deg, ${C.gold}, ${C.goldSoft})` }} />
 
                   <div className="shrink-0">
                     <motion.div
                       whileHover={{ scale: 1.03 }}
                       transition={{ duration: 0.3 }}
                       className="relative overflow-hidden rounded-xl"
-                      style={{
-                        width: 96,
-                        height: 96,
-                        background: "#F0EEE9",
-                        border: `1px solid ${C.line}`,
-                      }}
+                      style={{ width: 96, height: 96, background: item.boxColor || "#F0EEE9", border: `1px solid ${C.line}` }}
                     >
                       {item.image ? (
-                        <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                        <img src={item.image} alt={item.name} className="h-full w-full object-contain p-2" />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center">
-                          <ImageOff size={20} style={{ color: "#B8BCC2" }} />
+                          <ImageOff size={20} style={{ color: "rgba(255,255,255,0.6)" }} />
                         </div>
                       )}
                     </motion.div>
-                    <Link
-                      to="/design-studio"
-                      className="mt-2.5 block text-center text-[12px] font-semibold tracking-wide"
-                      style={{ color: C.navy }}
-                    >
+                    <Link to="/design-studio" className="mt-2.5 block text-center text-[12px] font-semibold tracking-wide" style={{ color: C.navy }}>
                       <span className="border-b" style={{ borderColor: C.gold }}>
                         Edit design
                       </span>
@@ -151,10 +128,7 @@ export default function Cart() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-3">
-                      <p
-                        className="text-[16px] font-bold leading-snug"
-                        style={{ color: C.ink, fontFamily: "'Playfair Display', Georgia, serif" }}
-                      >
+                      <p className="text-[16px] font-bold leading-snug" style={{ color: C.ink, fontFamily: "'Playfair Display', Georgia, serif" }}>
                         {item.name}
                       </p>
                       <button
@@ -176,16 +150,10 @@ export default function Cart() {
 
                     <div className="mt-4 flex items-center gap-4 flex-wrap">
                       <div>
-                        <span
-                          className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5"
-                          style={{ color: C.muted }}
-                        >
+                        <span className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5" style={{ color: C.muted }}>
                           Quantity
                         </span>
-                        <div
-                          className="inline-flex items-center rounded-lg overflow-hidden"
-                          style={{ border: `1px solid ${C.line}` }}
-                        >
+                        <div className="inline-flex items-center rounded-lg overflow-hidden" style={{ border: `1px solid ${C.line}` }}>
                           <button
                             onClick={() => stepQty(-1)}
                             disabled={item.qty === QTY_STEPS[0]}
@@ -212,10 +180,7 @@ export default function Cart() {
                       </div>
 
                       <div className="pl-1">
-                        <span
-                          className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5"
-                          style={{ color: C.muted }}
-                        >
+                        <span className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5" style={{ color: C.muted }}>
                           Unit price
                         </span>
                         <span className="text-[13.5px] font-bold" style={{ color: C.ink }}>
@@ -243,10 +208,7 @@ export default function Cart() {
                           transition={{ duration: 0.25 }}
                           className="overflow-hidden"
                         >
-                          <div
-                            className="mt-2.5 rounded-lg px-3.5 py-3 text-[12.5px] flex flex-col gap-1.5"
-                            style={{ background: "rgba(11,27,58,0.03)", color: C.muted }}
-                          >
+                          <div className="mt-2.5 rounded-lg px-3.5 py-3 text-[12.5px] flex flex-col gap-1.5" style={{ background: "rgba(11,27,58,0.03)", color: C.muted }}>
                             <div className="flex justify-between">
                               <span>Dimensions</span>
                               <span className="font-semibold" style={{ color: C.ink }}>
@@ -254,9 +216,10 @@ export default function Cart() {
                               </span>
                             </div>
                             <div className="flex justify-between">
-                              <span>Print</span>
-                              <span className="font-semibold" style={{ color: C.ink }}>
-                                Full colour, single side
+                              <span>Box color</span>
+                              <span className="flex items-center gap-1.5 font-semibold" style={{ color: C.ink }}>
+                                <span className="inline-block h-3 w-3 rounded-full" style={{ background: item.boxColor || "#B9863F", border: "1px solid rgba(11,27,58,0.15)" }} />
+                                Custom
                               </span>
                             </div>
                           </div>
@@ -264,20 +227,11 @@ export default function Cart() {
                       )}
                     </AnimatePresence>
 
-                    <div
-                      className="mt-4 pt-4 flex items-center justify-between"
-                      style={{ borderTop: `1px dashed ${C.line}` }}
-                    >
+                    <div className="mt-4 pt-4 flex items-center justify-between" style={{ borderTop: `1px dashed ${C.line}` }}>
                       <span className="text-[12.5px] font-semibold" style={{ color: C.muted }}>
                         Item total
                       </span>
-                      <motion.span
-                        key={itemTotal}
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-[16px] font-extrabold"
-                        style={{ color: C.navy }}
-                      >
+                      <motion.span key={itemTotal} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-[16px] font-extrabold" style={{ color: C.navy }}>
                         ₹{itemTotal.toLocaleString("en-IN")}.00
                       </motion.span>
                     </div>
@@ -291,10 +245,7 @@ export default function Cart() {
                   className="flex flex-col items-center justify-center text-center rounded-2xl py-20 px-6"
                   style={{ border: `1px dashed ${C.line}`, background: "#FFFFFF" }}
                 >
-                  <div
-                    className="mb-4 flex h-14 w-14 items-center justify-center rounded-full"
-                    style={{ background: "rgba(201,162,39,0.12)" }}
-                  >
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: "rgba(201,162,39,0.12)" }}>
                     <ShoppingBag size={22} style={{ color: C.gold }} />
                   </div>
                   <p className="text-[16px] font-bold" style={{ color: C.ink }}>
@@ -303,18 +254,13 @@ export default function Cart() {
                   <p className="mt-1.5 text-[13px]" style={{ color: C.muted }}>
                     Start a design to see it here.
                   </p>
-                  <Link
-                    to="/design-studio"
-                    className="mt-6 rounded-lg px-5 py-2.5 text-[13px] font-bold"
-                    style={{ background: C.navy, color: "#fff" }}
-                  >
+                  <Link to="/design-studio" className="mt-6 rounded-lg px-5 py-2.5 text-[13px] font-bold" style={{ background: C.navy, color: "#fff" }}>
                     Start designing
                   </Link>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* trust strip */}
             {item && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -341,15 +287,9 @@ export default function Cart() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
             className="lg:sticky lg:top-8 rounded-2xl p-6 overflow-hidden relative"
-            style={{
-              background: `linear-gradient(180deg, ${C.navy}, ${C.navyDeep})`,
-              boxShadow: "0 24px 48px -20px rgba(11,27,58,0.45)",
-            }}
+            style={{ background: `linear-gradient(180deg, ${C.navy}, ${C.navyDeep})`, boxShadow: "0 24px 48px -20px rgba(11,27,58,0.45)" }}
           >
-            <div
-              className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full"
-              style={{ background: "radial-gradient(circle, rgba(201,162,39,0.25), transparent 70%)" }}
-            />
+            <div className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(201,162,39,0.25), transparent 70%)" }} />
 
             <div className="flex items-center gap-2 mb-6">
               <Sparkles size={15} style={{ color: C.gold }} />
@@ -362,9 +302,7 @@ export default function Cart() {
               <span className="text-[13.5px]" style={{ color: "rgba(255,255,255,0.75)" }}>
                 Item total
               </span>
-              <span className="text-[13.5px] font-semibold text-white">
-                ₹{itemTotal.toLocaleString("en-IN")}.00
-              </span>
+              <span className="text-[13.5px] font-semibold text-white">₹{itemTotal.toLocaleString("en-IN")}.00</span>
             </div>
 
             <div className="flex items-center justify-between mb-3">
@@ -394,11 +332,7 @@ export default function Cart() {
               )}
             </AnimatePresence>
 
-            <button
-              onClick={() => setPromoOpen((v) => !v)}
-              className="flex items-center gap-1.5 text-[12.5px] font-semibold mb-4 mt-1"
-              style={{ color: C.goldSoft }}
-            >
+            <button onClick={() => setPromoOpen((v) => !v)} className="flex items-center gap-1.5 text-[12.5px] font-semibold mb-4 mt-1" style={{ color: C.goldSoft }}>
               Have a promo code?
               <motion.span animate={{ rotate: promoOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
                 <ChevronDown size={13} />
@@ -406,40 +340,22 @@ export default function Cart() {
             </button>
             <AnimatePresence>
               {promoOpen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="mb-5 flex gap-2 overflow-hidden"
-                >
+                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mb-5 flex gap-2 overflow-hidden">
                   <input
                     placeholder="Enter code"
                     className="flex-1 rounded-lg px-3 py-2.5 text-[13px] outline-none text-white placeholder:text-white/40"
                     style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)" }}
                   />
-                  <button
-                    onClick={() => setPromoApplied(true)}
-                    className="rounded-lg px-4 text-[13px] font-bold"
-                    style={{ background: C.gold, color: C.navyDeep }}
-                  >
+                  <button onClick={() => setPromoApplied(true)} className="rounded-lg px-4 text-[13px] font-bold" style={{ background: C.gold, color: C.navyDeep }}>
                     Apply
                   </button>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <div
-              className="flex items-center justify-between mb-6 pt-4"
-              style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}
-            >
+            <div className="flex items-center justify-between mb-6 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}>
               <span className="text-[14.5px] font-bold text-white">Total</span>
-              <motion.span
-                key={subtotal}
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-[20px] font-extrabold"
-                style={{ color: C.gold }}
-              >
+              <motion.span key={subtotal} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-[20px] font-extrabold" style={{ color: C.gold }}>
                 ₹{subtotal.toLocaleString("en-IN")}.00
               </motion.span>
             </div>

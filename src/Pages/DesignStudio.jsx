@@ -39,6 +39,30 @@ const RECOLOR_SWATCHES = [
   { id: "red", label: "Red", hex: "#d33f3f" },
 ];
 
+// 👉 Box / basket material colors — like choosing leather color.
+// This is separate from the logo recolor above (that recolors the
+// uploaded design; this recolors the actual product/box itself).
+const BOX_COLORS = [
+  { id: "yellow", label: "Yellow", hex: "#F0B429" },
+  { id: "kraft", label: "Kraft", hex: "#B9863F" },
+  { id: "green", label: "Green", hex: "#2F7D46" },
+  { id: "red", label: "Red", hex: "#A93226" },
+  { id: "navy", label: "Navy", hex: "#0B1B3A" },
+  { id: "black", label: "Black", hex: "#1C2333" },
+];
+
+function shade(hex, percent) {
+  // percent: negative = darker, positive = lighter
+  const num = parseInt(hex.replace("#", ""), 16);
+  let r = (num >> 16) + Math.round(255 * (percent / 100));
+  let g = ((num >> 8) & 0x00ff) + Math.round(255 * (percent / 100));
+  let b = (num & 0x0000ff) + Math.round(255 * (percent / 100));
+  r = Math.max(0, Math.min(255, r));
+  g = Math.max(0, Math.min(255, g));
+  b = Math.max(0, Math.min(255, b));
+  return `rgb(${r},${g},${b})`;
+}
+
 const TOOLS = [
   { id: "text", label: "Text", icon: Type },
   { id: "uploads", label: "Uploads", icon: ImagePlus },
@@ -58,10 +82,11 @@ export default function DesignStudio() {
   const [inverted, setInverted] = useState(false);
   const [zoom, setZoom] = useState(100);
   const [rotation, setRotation] = useState(0);
-  const [position, setPosition] = useState({ x: 0, y: 0 }); // px offset from center — logo drag position
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [isBaking, setIsBaking] = useState(false);
+  const [boxColor, setBoxColor] = useState(BOX_COLORS[0].hex);
   const fileInputRef = useRef(null);
   const safeAreaRef = useRef(null);
   const dragStartRef = useRef({ x: 0, y: 0 });
@@ -101,9 +126,6 @@ export default function DesignStudio() {
     setPosition({ x: 0, y: 0 });
   };
 
-  // ---- Drag-to-reposition: user picks up the logo and moves it anywhere
-  // inside the box (e.g. off-center, to a side) instead of it staying fixed
-  // in the middle. Works with both mouse and touch (pointer events).
   const clampPosition = (x, y) => {
     if (!safeAreaRef.current) return { x, y };
     const rect = safeAreaRef.current.getBoundingClientRect();
@@ -143,9 +165,6 @@ export default function DesignStudio() {
     }
   };
 
-  // Bakes contrast, recolor, rotation and zoom permanently into the actual
-  // image pixels using a canvas, so every later screen (Review, Cart, etc.)
-  // shows exactly what was edited here — not the raw original upload.
   const bakeFinalImage = () =>
     new Promise((resolve, reject) => {
       const img = new Image();
@@ -156,12 +175,10 @@ export default function DesignStudio() {
         canvas.height = CANVAS_SIZE;
         const ctx = canvas.getContext("2d");
 
-        // fit image inside canvas like object-contain
         const fitScale = Math.min(CANVAS_SIZE / img.width, CANVAS_SIZE / img.height);
         const drawW = img.width * fitScale;
         const drawH = img.height * fitScale;
 
-        // convert on-screen drag offset (px) into canvas-space offset
         const rect = safeAreaRef.current?.getBoundingClientRect();
         const posScale = rect ? CANVAS_SIZE / rect.width : 1;
 
@@ -200,12 +217,11 @@ export default function DesignStudio() {
     try {
       const finalImage = await bakeFinalImage();
       navigate("/review-design", {
-        state: { ...productInfo, image: finalImage, contrast, recolor, inverted, zoom, rotation, position },
+        state: { ...productInfo, image: finalImage, boxColor, contrast, recolor, inverted, zoom, rotation, position },
       });
     } catch {
-      // fallback: still proceed with the original image if baking fails
       navigate("/review-design", {
-        state: { ...productInfo, image: uploadedImage, contrast, recolor, inverted, zoom, rotation, position },
+        state: { ...productInfo, image: uploadedImage, boxColor, contrast, recolor, inverted, zoom, rotation, position },
       });
     } finally {
       setIsBaking(false);
@@ -286,6 +302,31 @@ export default function DesignStudio() {
 
         {/* Tool sub-panel */}
         <div className="w-full lg:w-72 shrink-0 p-5" style={{ background: C.white, borderRight: "1px solid rgba(11,27,58,0.08)" }}>
+          {/* ---- Box / basket color — separate from the design's own color ---- */}
+          <div className="mb-6 pb-6" style={{ borderBottom: "1px solid rgba(11,27,58,0.08)" }}>
+            <h3 className="text-[13px] font-bold mb-1" style={{ color: C.ink }}>
+              Box Color
+            </h3>
+            <p className="text-[11.5px] mb-3" style={{ color: "#7A8092" }}>
+              Choose the box/basket's own color
+            </p>
+            <div className="flex flex-wrap items-center gap-2.5">
+              {BOX_COLORS.map((c) => {
+                const active = boxColor === c.hex;
+                return (
+                  <button key={c.id} onClick={() => setBoxColor(c.hex)} title={c.label} className="flex flex-col items-center gap-1">
+                    <span
+                      className="relative flex h-8 w-8 items-center justify-center rounded-full"
+                      style={{ background: c.hex, border: active ? `3px solid ${C.gold}` : "3px solid transparent", boxShadow: "0 0 0 1px rgba(11,27,58,0.15)" }}
+                    >
+                      {active && <Check size={13} style={{ color: c.id === "yellow" ? C.navy : C.white }} />}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {activeTool === "uploads" && (
             <>
               <h3 className="text-[16px] font-bold mb-3" style={{ color: C.ink }}>
@@ -347,16 +388,43 @@ export default function DesignStudio() {
           )}
         </div>
 
-        {/* ============ SECTION C — CANVAS ============ */}
+        {/* ============ SECTION C — CANVAS (3D box/cuboid preview) ============ */}
         <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-10 relative" style={{ minHeight: "70vh" }}>
-          <div className="relative w-full max-w-2xl">
-            {/* product texture background */}
+          <div className="relative w-full max-w-xl" style={{ paddingTop: 36, paddingRight: 36 }}>
+            {/* TOP face — gives the cuboid its 3D "lid" look */}
+            <div
+              className="absolute rounded-sm"
+              style={{
+                top: 0,
+                left: 18,
+                right: 54,
+                height: 36,
+                background: shade(boxColor, 22),
+                transform: "skewX(-38deg)",
+                transformOrigin: "bottom left",
+              }}
+            />
+            {/* SIDE face — gives the cuboid its depth on the right */}
+            <div
+              className="absolute rounded-sm"
+              style={{
+                top: 18,
+                right: 0,
+                bottom: 36,
+                width: 36,
+                background: shade(boxColor, -22),
+                transform: "skewY(-38deg)",
+                transformOrigin: "top left",
+              }}
+            />
+
+            {/* FRONT face — this is the actual design/upload area, unchanged logic */}
             <div
               className="relative w-full overflow-hidden rounded-md"
               style={{
                 aspectRatio: "16 / 10",
-                background: "linear-gradient(135deg, #c99a5f 0%, #b9863f 45%, #a97934 100%)",
-                boxShadow: "0 12px 32px rgba(11,27,58,0.15)",
+                background: boxColor,
+                boxShadow: "0 16px 36px rgba(11,27,58,0.22)",
               }}
             >
               {/* guide labels */}
@@ -420,7 +488,6 @@ export default function DesignStudio() {
                         }}
                       />
                     )}
-                    {/* subtle hint so it's obvious the logo can be dragged around */}
                     {!isDragging && (
                       <span
                         className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full px-2.5 py-1 text-[10px] font-semibold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
@@ -537,7 +604,7 @@ export default function DesignStudio() {
                 />
               </div>
 
-              {/* Rotate (also available inside modal for convenience) */}
+              {/* Rotate */}
               <div className="mb-5">
                 <p className="flex items-center gap-1.5 text-[13px] font-semibold mb-2" style={{ color: C.ink }}>
                   <RotateCw size={14} />
@@ -566,7 +633,7 @@ export default function DesignStudio() {
                 </div>
               </div>
 
-              {/* Recolor — made explicit so client understands it changes color */}
+              {/* Recolor design */}
               <div className="mb-5 rounded-xl p-3.5" style={{ background: "#F7F5F1", border: "1px solid rgba(11,27,58,0.08)" }}>
                 <p className="flex items-center gap-1.5 text-[13px] font-semibold mb-1" style={{ color: C.ink }}>
                   <Palette size={14} />
