@@ -3,15 +3,16 @@ import { useLocation, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ImageOff, ChevronDown, Minus, Plus, ShieldCheck, Truck, ShoppingBag, Trash2, Sparkles } from "lucide-react";
 
+// Color palette matching Home3
 const C = {
-  navy: "#0B1B3A",
-  navyDeep: "#071228",
-  gold: "#C9A227",
-  goldSoft: "#E7D9A8",
-  ink: "#1C2333",
-  paper: "#F7F5F1",
-  line: "rgba(11,27,58,0.10)",
-  muted: "#6B7086",
+  cream: "#F3EFE7",
+  creamDeep: "#ECE7DC",
+  ink: "#1D1D1B",
+  gray: "#6B6B66",
+  gold: "#B08D45",
+  goldDark: "#8C6F35",
+  darkGreen: "#0E1F16",
+  darkGreenDeep: "#0A170F",
 };
 
 const QTY_STEPS = [25, 50, 100, 250, 500];
@@ -46,7 +47,7 @@ export default function Cart() {
     <div
       style={{
         fontFamily: "'Inter', system-ui, sans-serif",
-        background: `radial-gradient(1200px 400px at 50% -10%, rgba(201,162,39,0.07), transparent), ${C.paper}`,
+        background: `radial-gradient(1200px 400px at 50% -10%, rgba(176,141,69,0.07), transparent), ${C.cream}`,
         minHeight: "100vh",
       }}
     >
@@ -74,7 +75,7 @@ export default function Cart() {
           </div>
           <span
             className="hidden sm:inline-flex items-center gap-1.5 text-[13px] font-semibold px-3 py-1.5 rounded-full"
-            style={{ background: "rgba(11,27,58,0.05)", color: C.navy }}
+            style={{ background: "rgba(14,31,22,0.06)", color: C.darkGreen }}
           >
             <ShoppingBag size={14} />
             {item ? "1 item" : "0 items"}
@@ -100,16 +101,16 @@ export default function Cart() {
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   whileHover={{ y: -2 }}
                   className="relative flex gap-5 rounded-2xl bg-white p-5 overflow-hidden"
-                  style={{ border: `1px solid ${C.line}`, boxShadow: "0 1px 2px rgba(11,27,58,0.04), 0 12px 32px -18px rgba(11,27,58,0.18)" }}
+                  style={{ border: `1px solid ${C.gold}20`, boxShadow: "0 1px 2px rgba(14,31,22,0.04), 0 12px 32px -18px rgba(14,31,22,0.18)" }}
                 >
-                  <span className="absolute left-0 top-0 h-full w-[3px]" style={{ background: `linear-gradient(180deg, ${C.gold}, ${C.goldSoft})` }} />
+                  <span className="absolute left-0 top-0 h-full w-[3px]" style={{ background: `linear-gradient(180deg, ${C.gold}, ${C.goldDark})` }} />
 
                   <div className="shrink-0">
                     <motion.div
                       whileHover={{ scale: 1.03 }}
                       transition={{ duration: 0.3 }}
                       className="relative overflow-hidden rounded-xl"
-                      style={{ width: 96, height: 96, background: item.boxColor || "#F0EEE9", border: `1px solid ${C.line}` }}
+                      style={{ width: 96, height: 96, background: item.boxColor || "#F0EEE9", border: `1px solid ${C.gold}20` }}
                     >
                       {item.image ? (
                         <img src={item.image} alt={item.name} className="h-full w-full object-contain p-2" />
@@ -119,7 +120,7 @@ export default function Cart() {
                         </div>
                       )}
                     </motion.div>
-                    <Link to="/design-studio" className="mt-2.5 block text-center text-[12px] font-semibold tracking-wide" style={{ color: C.navy }}>
+                    <Link to="/design-studio" className="mt-2.5 block text-center text-[12px] font-semibold tracking-wide" style={{ color: C.darkGreen }}>
                       <span className="border-b" style={{ borderColor: C.gold }}>
                         Edit design
                       </span>
@@ -135,36 +136,36 @@ export default function Cart() {
                         onClick={removeItem}
                         aria-label="Remove item"
                         className="shrink-0 flex items-center cursor-pointer gap-1.5 text-[12.5px] font-semibold transition-colors"
-                        style={{ color: C.muted }}
+                        style={{ color: C.gray }}
                         onMouseEnter={(e) => (e.currentTarget.style.color = "#9B1C2E")}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = C.muted)}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = C.gray)}
                       >
                         <Trash2 size={14} />
                         Remove
                       </button>
                     </div>
 
-                    <p className="mt-1 text-[12.5px]" style={{ color: C.muted }}>
+                    <p className="mt-1 text-[12.5px]" style={{ color: C.gray }}>
                       {item.size || "Standard size"}
                     </p>
 
                     <div className="mt-4 flex items-center gap-4 flex-wrap">
                       <div>
-                        <span className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5" style={{ color: C.muted }}>
+                        <span className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5" style={{ color: C.gray }}>
                           Quantity
                         </span>
-                        <div className="inline-flex items-center rounded-lg overflow-hidden" style={{ border: `1px solid ${C.line}` }}>
+                        <div className="inline-flex items-center rounded-lg overflow-hidden" style={{ border: `1px solid ${C.gold}20` }}>
                           <button
                             onClick={() => stepQty(-1)}
                             disabled={item.qty === QTY_STEPS[0]}
                             className="flex h-9 w-9 items-center justify-center transition-colors disabled:opacity-30"
-                            style={{ color: C.navy }}
+                            style={{ color: C.darkGreen }}
                           >
                             <Minus size={14} />
                           </button>
                           <span
                             className="flex h-9 min-w-[52px] items-center justify-center text-[13.5px] font-bold"
-                            style={{ color: C.ink, borderLeft: `1px solid ${C.line}`, borderRight: `1px solid ${C.line}` }}
+                            style={{ color: C.ink, borderLeft: `1px solid ${C.gold}20`, borderRight: `1px solid ${C.gold}20` }}
                           >
                             {item.qty}
                           </span>
@@ -172,7 +173,7 @@ export default function Cart() {
                             onClick={() => stepQty(1)}
                             disabled={item.qty === QTY_STEPS[QTY_STEPS.length - 1]}
                             className="flex h-9 w-9 items-center justify-center transition-colors disabled:opacity-30"
-                            style={{ color: C.navy }}
+                            style={{ color: C.darkGreen }}
                           >
                             <Plus size={14} />
                           </button>
@@ -180,7 +181,7 @@ export default function Cart() {
                       </div>
 
                       <div className="pl-1">
-                        <span className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5" style={{ color: C.muted }}>
+                        <span className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5" style={{ color: C.gray }}>
                           Unit price
                         </span>
                         <span className="text-[13.5px] font-bold" style={{ color: C.ink }}>
@@ -192,7 +193,7 @@ export default function Cart() {
                     <button
                       onClick={() => setShowOptions((v) => !v)}
                       className="mt-4 flex items-center gap-1.5 text-[12.5px] font-semibold"
-                      style={{ color: C.navy }}
+                      style={{ color: C.darkGreen }}
                     >
                       Selected options
                       <motion.span animate={{ rotate: showOptions ? 180 : 0 }} transition={{ duration: 0.2 }}>
@@ -208,7 +209,7 @@ export default function Cart() {
                           transition={{ duration: 0.25 }}
                           className="overflow-hidden"
                         >
-                          <div className="mt-2.5 rounded-lg px-3.5 py-3 text-[12.5px] flex flex-col gap-1.5" style={{ background: "rgba(11,27,58,0.03)", color: C.muted }}>
+                          <div className="mt-2.5 rounded-lg px-3.5 py-3 text-[12.5px] flex flex-col gap-1.5" style={{ background: "rgba(14,31,22,0.04)", color: C.gray }}>
                             <div className="flex justify-between">
                               <span>Dimensions</span>
                               <span className="font-semibold" style={{ color: C.ink }}>
@@ -218,7 +219,7 @@ export default function Cart() {
                             <div className="flex justify-between">
                               <span>Box color</span>
                               <span className="flex items-center gap-1.5 font-semibold" style={{ color: C.ink }}>
-                                <span className="inline-block h-3 w-3 rounded-full" style={{ background: item.boxColor || "#B9863F", border: "1px solid rgba(11,27,58,0.15)" }} />
+                                <span className="inline-block h-3 w-3 rounded-full" style={{ background: item.boxColor || "#B9863F", border: "1px solid rgba(14,31,22,0.15)" }} />
                                 Custom
                               </span>
                             </div>
@@ -227,11 +228,11 @@ export default function Cart() {
                       )}
                     </AnimatePresence>
 
-                    <div className="mt-4 pt-4 flex items-center justify-between" style={{ borderTop: `1px dashed ${C.line}` }}>
-                      <span className="text-[12.5px] font-semibold" style={{ color: C.muted }}>
+                    <div className="mt-4 pt-4 flex items-center justify-between" style={{ borderTop: `1px dashed ${C.gold}20` }}>
+                      <span className="text-[12.5px] font-semibold" style={{ color: C.gray }}>
                         Item total
                       </span>
-                      <motion.span key={itemTotal} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-[16px] font-extrabold" style={{ color: C.navy }}>
+                      <motion.span key={itemTotal} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-[16px] font-extrabold" style={{ color: C.darkGreen }}>
                         ₹{itemTotal.toLocaleString("en-IN")}.00
                       </motion.span>
                     </div>
@@ -243,18 +244,18 @@ export default function Cart() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="flex flex-col items-center justify-center text-center rounded-2xl py-20 px-6"
-                  style={{ border: `1px dashed ${C.line}`, background: "#FFFFFF" }}
+                  style={{ border: `1px dashed ${C.gold}20`, background: "#FFFFFF" }}
                 >
-                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: "rgba(201,162,39,0.12)" }}>
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: "rgba(176,141,69,0.12)" }}>
                     <ShoppingBag size={22} style={{ color: C.gold }} />
                   </div>
                   <p className="text-[16px] font-bold" style={{ color: C.ink }}>
                     Your cart is empty
                   </p>
-                  <p className="mt-1.5 text-[13px]" style={{ color: C.muted }}>
+                  <p className="mt-1.5 text-[13px]" style={{ color: C.gray }}>
                     Start a design to see it here.
                   </p>
-                  <Link to="/design-studio" className="mt-6 rounded-lg px-5 py-2.5 text-[13px] font-bold" style={{ background: C.navy, color: "#fff" }}>
+                  <Link to="/design-studio" className="mt-6 rounded-lg px-5 py-2.5 text-[13px] font-bold" style={{ background: C.darkGreen, color: C.cream }}>
                     Start designing
                   </Link>
                 </motion.div>
@@ -267,13 +268,13 @@ export default function Cart() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
                 className="flex flex-wrap gap-x-8 gap-y-3 rounded-xl px-5 py-4"
-                style={{ background: "rgba(11,27,58,0.03)" }}
+                style={{ background: "rgba(14,31,22,0.04)" }}
               >
-                <span className="flex items-center gap-2 text-[12.5px] font-semibold" style={{ color: C.navy }}>
+                <span className="flex items-center gap-2 text-[12.5px] font-semibold" style={{ color: C.darkGreen }}>
                   <Truck size={15} style={{ color: C.gold }} />
                   Free dispatch on this order
                 </span>
-                <span className="flex items-center gap-2 text-[12.5px] font-semibold" style={{ color: C.navy }}>
+                <span className="flex items-center gap-2 text-[12.5px] font-semibold" style={{ color: C.darkGreen }}>
                   <ShieldCheck size={15} style={{ color: C.gold }} />
                   Secure checkout
                 </span>
@@ -287,29 +288,29 @@ export default function Cart() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
             className="lg:sticky lg:top-8 rounded-2xl p-6 overflow-hidden relative"
-            style={{ background: `linear-gradient(180deg, ${C.navy}, ${C.navyDeep})`, boxShadow: "0 24px 48px -20px rgba(11,27,58,0.45)" }}
+            style={{ background: `linear-gradient(180deg, ${C.darkGreen}, ${C.darkGreenDeep})`, boxShadow: "0 24px 48px -20px rgba(14,31,22,0.45)" }}
           >
-            <div className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(201,162,39,0.25), transparent 70%)" }} />
+            <div className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(176,141,69,0.25), transparent 70%)" }} />
 
             <div className="flex items-center gap-2 mb-6">
               <Sparkles size={15} style={{ color: C.gold }} />
-              <h2 className="text-[13px] font-bold uppercase tracking-[0.14em]" style={{ color: C.goldSoft }}>
+              <h2 className="text-[13px] font-bold uppercase tracking-[0.14em]" style={{ color: C.gold }}>
                 Order Summary
               </h2>
             </div>
 
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[13.5px]" style={{ color: "rgba(255,255,255,0.75)" }}>
+              <span className="text-[13.5px]" style={{ color: "rgba(243,239,231,0.75)" }}>
                 Item total
               </span>
-              <span className="text-[13.5px] font-semibold text-white">₹{itemTotal.toLocaleString("en-IN")}.00</span>
+              <span className="text-[13.5px] font-semibold" style={{ color: C.cream }}>₹{itemTotal.toLocaleString("en-IN")}.00</span>
             </div>
 
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[13.5px]" style={{ color: "rgba(255,255,255,0.75)" }}>
+              <span className="text-[13.5px]" style={{ color: "rgba(243,239,231,0.75)" }}>
                 Shipping
               </span>
-              <span className="text-[13.5px] font-semibold" style={{ color: C.goldSoft }}>
+              <span className="text-[13.5px] font-semibold" style={{ color: C.gold }}>
                 Free
               </span>
             </div>
@@ -322,7 +323,7 @@ export default function Cart() {
                   exit={{ opacity: 0, height: 0 }}
                   className="flex items-center justify-between mb-3 overflow-hidden"
                 >
-                  <span className="text-[13.5px]" style={{ color: "rgba(255,255,255,0.75)" }}>
+                  <span className="text-[13.5px]" style={{ color: "rgba(243,239,231,0.75)" }}>
                     Promo discount
                   </span>
                   <span className="text-[13.5px] font-semibold" style={{ color: "#7FD1A0" }}>
@@ -332,7 +333,7 @@ export default function Cart() {
               )}
             </AnimatePresence>
 
-            <button onClick={() => setPromoOpen((v) => !v)} className="flex items-center gap-1.5 text-[12.5px] font-semibold mb-4 mt-1" style={{ color: C.goldSoft }}>
+            <button onClick={() => setPromoOpen((v) => !v)} className="flex items-center gap-1.5 text-[12.5px] font-semibold mb-4 mt-1" style={{ color: C.gold }}>
               Have a promo code?
               <motion.span animate={{ rotate: promoOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
                 <ChevronDown size={13} />
@@ -343,35 +344,35 @@ export default function Cart() {
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mb-5 flex gap-2 overflow-hidden">
                   <input
                     placeholder="Enter code"
-                    className="flex-1 rounded-lg px-3 py-2.5 text-[13px] outline-none text-white placeholder:text-white/40"
-                    style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)" }}
+                    className="flex-1 rounded-lg px-3 py-2.5 text-[13px] outline-none"
+                    style={{ background: "rgba(243,239,231,0.08)", border: "1px solid rgba(243,239,231,0.15)", color: C.cream }}
                   />
-                  <button onClick={() => setPromoApplied(true)} className="rounded-lg px-4 text-[13px] font-bold" style={{ background: C.gold, color: C.navyDeep }}>
+                  <button onClick={() => setPromoApplied(true)} className="rounded-lg px-4 text-[13px] font-bold" style={{ background: C.gold, color: C.darkGreenDeep }}>
                     Apply
                   </button>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <div className="flex items-center justify-between mb-6 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}>
-              <span className="text-[14.5px] font-bold text-white">Total</span>
+            <div className="flex items-center justify-between mb-6 pt-4" style={{ borderTop: "1px solid rgba(243,239,231,0.12)" }}>
+              <span className="text-[14.5px] font-bold" style={{ color: C.cream }}>Total</span>
               <motion.span key={subtotal} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-[20px] font-extrabold" style={{ color: C.gold }}>
                 ₹{subtotal.toLocaleString("en-IN")}.00
               </motion.span>
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.015, boxShadow: "0 12px 28px -8px rgba(201,162,39,0.55)" }}
+              whileHover={{ scale: 1.015, boxShadow: "0 12px 28px -8px rgba(176,141,69,0.55)" }}
               whileTap={{ scale: 0.985 }}
               transition={{ duration: 0.2 }}
               disabled={!item}
               className="w-full rounded-lg cursor-pointer py-3.5 text-[14px] font-extrabold tracking-wide disabled:opacity-40"
-              style={{ background: `linear-gradient(135deg, ${C.gold}, #B8901E)`, color: C.navyDeep }}
+              style={{ background: `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`, color: C.darkGreenDeep }}
             >
               Proceed to Checkout
             </motion.button>
 
-            <p className="mt-4 text-center text-[11px]" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <p className="mt-4 text-center text-[11px]" style={{ color: "rgba(243,239,231,0.45)" }}>
               Taxes calculated at the next step
             </p>
           </motion.div>

@@ -3,11 +3,16 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { X, Check, ImageOff } from "lucide-react";
 
+// Color palette matching Home3
 const C = {
-  navy: "#0B1B3A",
-  gold: "#C9A227",
-  goldLight: "#E8C874",
-  ink: "#1C2333",
+  cream: "#F3EFE7",
+  creamDeep: "#ECE7DC",
+  ink: "#1D1D1B",
+  gray: "#6B6B66",
+  gold: "#B08D45",
+  goldDark: "#8C6F35",
+  darkGreen: "#0E1F16",
+  darkGreenDeep: "#0A170F",
 };
 
 function shade(hex, percent) {
@@ -42,7 +47,7 @@ export default function ReviewDesign() {
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2" style={{ fontFamily: "Inter, system-ui, sans-serif" }}>
       {/* ---- Left: 3D box preview ---- */}
-      <div className="flex items-center justify-center p-8 sm:p-14" style={{ background: "#F2F2F0" }}>
+      <div className="flex items-center justify-center p-8 sm:p-14" style={{ background: C.cream }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -64,12 +69,12 @@ export default function ReviewDesign() {
           {/* FRONT face */}
           <div
             className="relative w-full flex items-center justify-center overflow-hidden rounded-md"
-            style={{ aspectRatio: "4 / 3", background: boxColor, boxShadow: "0 12px 30px rgba(11,27,58,0.15)" }}
+            style={{ aspectRatio: "4 / 3", background: boxColor, boxShadow: "0 12px 30px rgba(14,31,22,0.15)" }}
           >
             {data.image ? (
               <img src={data.image} alt="Your design" className="w-2/3 h-2/3 object-contain" />
             ) : (
-              <div className="flex flex-col items-center gap-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+              <div className="flex flex-col items-center gap-2" style={{ color: "rgba(243,239,231,0.7)" }}>
                 <ImageOff size={26} />
                 <span className="text-[12px]">No design uploaded</span>
               </div>
@@ -79,7 +84,7 @@ export default function ReviewDesign() {
       </div>
 
       {/* ---- Right: review panel ---- */}
-      <div className="relative flex flex-col justify-center p-8 sm:p-14" style={{ background: "#fff" }}>
+      <div className="relative flex flex-col justify-center p-8 sm:p-14" style={{ background: C.white }}>
         <button
           onClick={() => navigate(-1)}
           className="absolute top-6 right-6 sm:top-8 sm:right-10 flex h-9 w-9 items-center justify-center rounded-full"
@@ -92,7 +97,7 @@ export default function ReviewDesign() {
           <h1 className="text-[30px] sm:text-[34px] font-extrabold" style={{ color: C.ink }}>
             Review your design
           </h1>
-          <p className="mt-2 text-[14.5px]" style={{ color: "#5B6072" }}>
+          <p className="mt-2 text-[14.5px]" style={{ color: C.gray }}>
             Double-check the following details before you continue.
           </p>
 
@@ -117,11 +122,11 @@ export default function ReviewDesign() {
               type="button"
               onClick={() => setAgreed((v) => !v)}
               className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded"
-              style={{ border: `2px solid ${agreed ? C.navy : "rgba(11,27,58,0.3)"}`, background: agreed ? C.navy : "transparent" }}
+              style={{ border: `2px solid ${agreed ? C.darkGreen : "rgba(14,31,22,0.3)"}`, background: agreed ? C.darkGreen : "transparent" }}
             >
-              {agreed && <Check size={13} color="#fff" />}
+              {agreed && <Check size={13} style={{ color: C.cream }} />}
             </button>
-            <span className="text-[13.5px] leading-snug" style={{ color: "#5B6072" }}>
+            <span className="text-[13.5px] leading-snug" style={{ color: C.gray }}>
               I have authorization to use the design, I have reviewed and approve it.
             </span>
           </label>
@@ -133,8 +138,8 @@ export default function ReviewDesign() {
             whileTap={agreed ? { scale: 0.98 } : {}}
             className="mt-6 w-full rounded-lg py-3.5 text-[14px] font-bold"
             style={{
-              background: agreed ? C.gold : "#EDEBE4",
-              color: agreed ? C.navy : "#B0B0A8",
+              background: agreed ? C.gold : C.creamDeep,
+              color: agreed ? C.darkGreen : C.gray,
               cursor: agreed ? "pointer" : "not-allowed",
             }}
           >
@@ -144,7 +149,7 @@ export default function ReviewDesign() {
           <button
             onClick={() => navigate(-1)}
             className="mt-3 w-full rounded-lg py-3.5 text-[14px] font-bold"
-            style={{ border: "1px solid rgba(11,27,58,0.2)", color: C.ink }}
+            style={{ border: `1px solid ${C.gold}20`, color: C.ink }}
           >
             Edit my design
           </button>

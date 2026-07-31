@@ -87,8 +87,8 @@ export default function Navbar() {
       <nav
         className="sticky top-0 z-50 transition-shadow duration-300 relative overflow-visible"
         style={{
-          background: C.cream,
-          boxShadow: scrolled ? "0 6px 24px rgba(14,31,22,0.12)" : "0 1px 0 rgba(14,31,22,0.06)",
+          background: `linear-gradient(90deg, ${C.darkGreenDeep} 0%, ${C.darkGreen} 100%)`,
+          boxShadow: scrolled ? "0 6px 24px rgba(0,0,0,0.35)" : "0 1px 0 rgba(255,255,255,0.06)",
         }}
       >
         {/* premium diagonal shine */}
@@ -96,14 +96,14 @@ export default function Navbar() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(115deg, transparent 35%, rgba(176,141,69,0.04) 48%, rgba(176,141,69,0.02) 55%, transparent 65%)",
+              "linear-gradient(115deg, transparent 35%, rgba(176,141,69,0.06) 48%, rgba(176,141,69,0.02) 55%, transparent 65%)",
           }}
         />
         {/* soft gold glow accent behind the logo */}
         <div
           className="pointer-events-none absolute -top-10 left-0 h-40 w-72"
           style={{
-            background: `radial-gradient(circle, ${C.gold}20, transparent 70%)`,
+            background: `radial-gradient(circle, ${C.gold}30, transparent 70%)`,
             filter: "blur(10px)",
           }}
         />
@@ -125,7 +125,7 @@ export default function Navbar() {
               <motion.img
                 src="/logo.png"
                 alt="Company Logo"
-                className="h-full w-full object-contain"
+                className="h-full w-full object-contain drop-shadow-[0_0_10px_rgba(176,141,69,0.35)]"
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: [0, -3, 0] }}
                 transition={{
@@ -141,23 +141,23 @@ export default function Navbar() {
               <div
                 className="flex items-center gap-2 rounded-full px-3.5 py-2 w-48 lg:w-64 transition-colors"
                 style={{ 
-                  background: "rgba(14,31,22,0.06)", 
-                  border: `1px solid ${C.gold}20` 
+                  background: "rgba(255,255,255,0.08)", 
+                  border: `1px solid ${C.gold}30` 
                 }}
               >
-                <Search size={15} style={{ color: C.gray }} />
+                <Search size={15} style={{ color: C.gold }} />
                 <input
                   type="text"
                   placeholder="Search..."
                   className="w-full bg-transparent text-sm outline-none placeholder:text-[13px]"
-                  style={{ color: C.ink }}
+                  style={{ color: C.cream }}
                 />
               </div>
 
               <a
                 href="#"
                 className="hidden sm:flex h-10 w-10 items-center justify-center rounded-full transition-colors"
-                style={{ color: C.gray }}
+                style={{ color: "rgba(243,239,231,0.6)" }}
                 aria-label="Account"
               >
                 <User size={20} />
@@ -170,7 +170,7 @@ export default function Navbar() {
                 onClick={() => setSearchOpen((v) => !v)}
                 aria-label="Search"
                 className="flex h-10 w-10 items-center justify-center rounded-full"
-                style={{ color: C.gray }}
+                style={{ color: "rgba(243,239,231,0.6)" }}
               >
                 <Search size={20} />
               </button>
@@ -185,17 +185,17 @@ export default function Navbar() {
             <div
               className="flex items-center gap-2 rounded-full px-4 py-2 mb-3"
               style={{ 
-                background: "rgba(14,31,22,0.06)", 
-                border: `1px solid ${C.gold}20` 
+                background: "rgba(255,255,255,0.08)", 
+                border: `1px solid ${C.gold}30` 
               }}
             >
-              <Search size={16} style={{ color: C.gray }} />
+              <Search size={16} style={{ color: C.gold }} />
               <input
                 ref={searchRef}
                 type="text"
                 placeholder="Search products..."
                 className="w-full bg-transparent text-sm outline-none"
-                style={{ color: C.ink }}
+                style={{ color: C.cream }}
               />
             </div>
           </div>
@@ -205,9 +205,9 @@ export default function Navbar() {
         <div
           className="hidden lg:block relative"
           style={{ 
-            background: C.creamDeep, 
-            borderTop: `1px solid ${C.gold}15`,
-            borderBottom: `1px solid ${C.gold}15`,
+            background: C.darkGreenDeep, 
+            borderTop: `1px solid ${C.gold}30`,
+            borderBottom: `1px solid ${C.gold}30`,
           }}
         >
           <div className="mx-auto max-w-7xl px-10">
@@ -223,10 +223,10 @@ export default function Navbar() {
                     to={item.href}
                     className="group relative flex items-center gap-1 py-3 text-[13px] font-medium tracking-wide transition-colors"
                     style={{ 
-                      color: megaOpen && item.isMega ? C.gold : C.gray,
+                      color: megaOpen && item.isMega ? C.gold : "rgba(243,239,231,0.8)",
                     }}
                     onMouseEnter={(e) => { if (!item.isMega) e.currentTarget.style.color = C.gold; }}
-                    onMouseLeave={(e) => { if (!item.isMega) e.currentTarget.style.color = C.gray; }}
+                    onMouseLeave={(e) => { if (!item.isMega) e.currentTarget.style.color = "rgba(243,239,231,0.8)"; }}
                   >
                     {item.label}
                     {item.isMega && (
@@ -258,9 +258,9 @@ export default function Navbar() {
                           <div
                             className="rounded-2xl p-3 grid grid-cols-4 gap-2"
                             style={{
-                              background: C.cream,
-                              border: `1px solid ${C.gold}30`,
-                              boxShadow: "0 20px 50px rgba(14,31,22,0.2)",
+                              background: C.darkGreenDeep,
+                              border: `1px solid ${C.gold}40`,
+                              boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
                             }}
                           >
                             {CATEGORIES.map((cat, i) => {
@@ -275,9 +275,9 @@ export default function Navbar() {
                                   transition={{ delay: i * 0.04, duration: 0.2 }}
                                   whileHover={{ y: -3 }}
                                   className="flex flex-col gap-2 rounded-xl p-3.5 transition-colors"
-                                  style={{ background: "rgba(14,31,22,0.03)" }}
-                                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(14,31,22,0.06)")}
-                                  onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(14,31,22,0.03)")}
+                                  style={{ background: "rgba(255,255,255,0.04)" }}
+                                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+                                  onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
                                 >
                                   <span
                                     className="flex h-9 w-9 items-center justify-center rounded-lg"
@@ -285,7 +285,7 @@ export default function Navbar() {
                                   >
                                     <Icon size={17} />
                                   </span>
-                                  <span className="text-[13px] font-semibold" style={{ color: C.ink }}>
+                                  <span className="text-[13px] font-semibold" style={{ color: C.cream }}>
                                     {cat.label}
                                   </span>
                                   <span className="text-[11px] leading-tight" style={{ color: C.gray }}>
