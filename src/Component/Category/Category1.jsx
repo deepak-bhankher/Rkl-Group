@@ -12,6 +12,7 @@ const C = {
   goldDark: "#8C6F35",
   darkGreen: "#0E1F16",
   darkGreenDeep: "#0A170F",
+  white: "#FFFFFF",
 };
 
 const ACCENT = C.darkGreen;
@@ -247,7 +248,7 @@ export default function SpeakersCategory() {
           className="pointer-events-none absolute -top-16 -right-16 h-72 w-72 rounded-full"
           style={{ background: `radial-gradient(circle, ${C.gold}44, transparent 70%)`, filter: "blur(20px)" }}
         />
-        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-12 sm:py-16">
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-12 sm:pt-16 pb-20 sm:pb-24">
           <motion.div
             initial={{ opacity: 0, x: -12 }}
             animate={{ opacity: 1, x: 0 }}
@@ -284,9 +285,9 @@ export default function SpeakersCategory() {
       </div>
 
       {/* ---- Toolbar ---- */}
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 -mt-6 relative z-10">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 -mt-10 relative z-10">
         <div
-          className="flex items-center justify-between rounded-2xl px-4 sm:px-5 py-3.5"
+          className="flex items-center justify-between rounded-2xl px-4 sm:px-5 py-4 sm:py-5"
           style={{ background: C.white, boxShadow: "0 8px 24px rgba(14,31,22,0.14)" }}
         >
           <span className="text-[13px] font-semibold" style={{ color: C.ink }}>
