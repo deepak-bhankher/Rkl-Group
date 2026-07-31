@@ -67,7 +67,7 @@ export default function Footer() {
     <footer
       className="relative overflow-hidden"
       style={{
-        background: `linear-gradient(100deg, ${C.darkGreenDeep} 0%, ${C.darkGreen} 100%)`,
+        background: `linear-gradient(100deg, ${C.creamDeep} 0%, ${C.cream} 100%)`,
         fontFamily: "Inter, system-ui, sans-serif",
       }}
     >
@@ -75,7 +75,7 @@ export default function Footer() {
       <div
         className="pointer-events-none absolute -top-16 left-0 h-56 w-96"
         style={{
-          background: `radial-gradient(circle, ${C.gold}30, transparent 70%)`,
+          background: `radial-gradient(circle, ${C.gold}20, transparent 70%)`,
           filter: "blur(20px)",
         }}
       />
@@ -92,11 +92,11 @@ export default function Footer() {
             <img
               src="/logo.png"
               alt="RKL Group"
-              className="h-16 sm:h-20 hover:scale-110 transition-all duration-300 w-auto object-contain mb-4 drop-shadow-[0_0_12px_rgba(176,141,69,0.35)]"
+              className="h-16 sm:h-20 hover:scale-110 transition-all duration-300 w-auto object-contain mb-4 drop-shadow-[0_0_12px_rgba(176,141,69,0.25)]"
             />
             <p
               className="text-sm leading-relaxed max-w-xs"
-              style={{ color: C.cream, opacity: 0.7 }}
+              style={{ color: C.gray }}
             >
               Premium customised hampers and branded products for MNCs and
               leading companies.
@@ -108,17 +108,23 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200"
-                  style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", color: C.cream }}
+                  className="flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200"
+                  style={{ 
+                    background: "rgba(14,31,22,0.06)", 
+                    border: `1px solid ${C.gold}30`, 
+                    color: C.gray 
+                  }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = C.gold;
-                    e.currentTarget.style.color = C.darkGreenDeep;
+                    e.currentTarget.style.background = `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`;
+                    e.currentTarget.style.color = C.cream;
                     e.currentTarget.style.borderColor = C.gold;
+                    e.currentTarget.style.transform = "scale(1.05)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                    e.currentTarget.style.color = C.cream;
-                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)";
+                    e.currentTarget.style.background = "rgba(14,31,22,0.06)";
+                    e.currentTarget.style.color = C.gray;
+                    e.currentTarget.style.borderColor = `${C.gold}30`;
+                    e.currentTarget.style.transform = "scale(1)";
                   }}
                 >
                   <Icon size={17} />
@@ -140,15 +146,15 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm transition-colors duration-200"
-                    style={{ color: C.cream, opacity: 0.75 }}
+                    className="text-sm transition-all duration-200"
+                    style={{ color: C.gray }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = C.gold;
-                      e.currentTarget.style.opacity = "1";
+                      e.currentTarget.style.transform = "translateX(4px)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = C.cream;
-                      e.currentTarget.style.opacity = "0.75";
+                      e.currentTarget.style.color = C.gray;
+                      e.currentTarget.style.transform = "translateX(0)";
                     }}
                   >
                     {link.label}
@@ -168,28 +174,43 @@ export default function Footer() {
             </h4>
             <p
               className="text-sm leading-relaxed max-w-xs mb-4"
-              style={{ color: C.cream, opacity: 0.75 }}
+              style={{ color: C.gray }}
             >
               Stay updated with our latest products &amp; offers.
             </p>
 
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="flex w-full max-w-xs items-center rounded-full pl-5 pr-1.5 py-1.5"
-              style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.16)" }}
+              className="flex w-full max-w-xs items-center rounded-full pl-5 pr-1.5 py-1.5 transition-all duration-300"
+              style={{ 
+                background: C.white,
+                border: `1px solid ${C.gold}30`,
+                boxShadow: "0 2px 8px rgba(14,31,22,0.06)"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = C.gold;
+                e.currentTarget.style.boxShadow = "0 4px 16px rgba(176,141,69,0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = `${C.gold}30`;
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(14,31,22,0.06)";
+              }}
             >
               <input
                 type="email"
                 required
                 placeholder="Enter your email"
-                className="flex-1 bg-transparent text-sm outline-none placeholder:opacity-60"
-                style={{ color: C.cream }}
+                className="flex-1 bg-transparent text-sm outline-none placeholder:text-[13px]"
+                style={{ color: C.ink }}
               />
               <button
                 type="submit"
                 aria-label="Subscribe"
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-transform duration-200 hover:scale-105"
-                style={{ background: `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`, color: C.darkGreenDeep }}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all duration-200 hover:scale-105 hover:shadow-lg"
+                style={{ 
+                  background: `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`, 
+                  color: C.cream 
+                }}
               >
                 <ArrowRight size={16} />
               </button>
@@ -198,16 +219,16 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="w-full h-px my-10" style={{ background: "rgba(255,255,255,0.12)" }} />
+        <div className="w-full h-px my-10" style={{ background: `${C.gold}20` }} />
 
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <p className="text-xs sm:text-sm" style={{ color: C.cream, opacity: 0.6 }}>
+          <p className="text-xs sm:text-sm" style={{ color: C.gray }}>
             © {year} RKL Group. All Rights Reserved.
           </p>
           <p
             className="flex items-center gap-1.5 text-xs sm:text-sm"
-            style={{ color: C.cream, opacity: 0.6 }}
+            style={{ color: C.gray }}
           >
             Designed with <Heart size={14} style={{ color: C.gold }} fill={C.gold} />
           </p>

@@ -87,8 +87,8 @@ export default function Navbar() {
       <nav
         className="sticky top-0 z-50 transition-shadow duration-300 relative overflow-visible"
         style={{
-          background: `linear-gradient(90deg, ${C.darkGreenDeep} 0%, ${C.darkGreen} 100%)`,
-          boxShadow: scrolled ? "0 6px 24px rgba(0,0,0,0.35)" : "0 1px 0 rgba(255,255,255,0.06)",
+          background: C.cream,
+          boxShadow: scrolled ? "0 6px 24px rgba(14,31,22,0.12)" : "0 1px 0 rgba(14,31,22,0.06)",
         }}
       >
         {/* premium diagonal shine */}
@@ -96,14 +96,14 @@ export default function Navbar() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.06) 48%, rgba(255,255,255,0.02) 55%, transparent 65%)",
+              "linear-gradient(115deg, transparent 35%, rgba(176,141,69,0.04) 48%, rgba(176,141,69,0.02) 55%, transparent 65%)",
           }}
         />
         {/* soft gold glow accent behind the logo */}
         <div
           className="pointer-events-none absolute -top-10 left-0 h-40 w-72"
           style={{
-            background: `radial-gradient(circle, ${C.gold}40, transparent 70%)`,
+            background: `radial-gradient(circle, ${C.gold}20, transparent 70%)`,
             filter: "blur(10px)",
           }}
         />
@@ -125,7 +125,7 @@ export default function Navbar() {
               <motion.img
                 src="/logo.png"
                 alt="Company Logo"
-                className="h-full w-full object-contain drop-shadow-[0_0_10px_rgba(176,141,69,0.35)]"
+                className="h-full w-full object-contain"
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: [0, -3, 0] }}
                 transition={{
@@ -140,14 +140,17 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-3 ml-auto">
               <div
                 className="flex items-center gap-2 rounded-full px-3.5 py-2 w-48 lg:w-64 transition-colors"
-                style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)" }}
+                style={{ 
+                  background: "rgba(14,31,22,0.06)", 
+                  border: `1px solid ${C.gold}20` 
+                }}
               >
                 <Search size={15} style={{ color: C.gray }} />
                 <input
                   type="text"
                   placeholder="Search..."
                   className="w-full bg-transparent text-sm outline-none placeholder:text-[13px]"
-                  style={{ color: C.cream }}
+                  style={{ color: C.ink }}
                 />
               </div>
 
@@ -181,7 +184,10 @@ export default function Navbar() {
           >
             <div
               className="flex items-center gap-2 rounded-full px-4 py-2 mb-3"
-              style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)" }}
+              style={{ 
+                background: "rgba(14,31,22,0.06)", 
+                border: `1px solid ${C.gold}20` 
+              }}
             >
               <Search size={16} style={{ color: C.gray }} />
               <input
@@ -189,7 +195,7 @@ export default function Navbar() {
                 type="text"
                 placeholder="Search products..."
                 className="w-full bg-transparent text-sm outline-none"
-                style={{ color: C.cream }}
+                style={{ color: C.ink }}
               />
             </div>
           </div>
@@ -198,7 +204,11 @@ export default function Navbar() {
         {/* ---- Section strip — desktop, centered ---- */}
         <div
           className="hidden lg:block relative"
-          style={{ background: C.darkGreenDeep, borderTop: "1px solid rgba(255,255,255,0.06)" }}
+          style={{ 
+            background: C.creamDeep, 
+            borderTop: `1px solid ${C.gold}15`,
+            borderBottom: `1px solid ${C.gold}15`,
+          }}
         >
           <div className="mx-auto max-w-7xl px-10">
             <ul className="flex items-center justify-center gap-10">
@@ -212,9 +222,11 @@ export default function Navbar() {
                   <Link
                     to={item.href}
                     className="group relative flex items-center gap-1 py-3 text-[13px] font-medium tracking-wide transition-colors"
-                    style={{ color: megaOpen && item.isMega ? C.gold : "rgba(243,239,231,0.82)" }}
+                    style={{ 
+                      color: megaOpen && item.isMega ? C.gold : C.gray,
+                    }}
                     onMouseEnter={(e) => { if (!item.isMega) e.currentTarget.style.color = C.gold; }}
-                    onMouseLeave={(e) => { if (!item.isMega) e.currentTarget.style.color = "rgba(243,239,231,0.82)"; }}
+                    onMouseLeave={(e) => { if (!item.isMega) e.currentTarget.style.color = C.gray; }}
                   >
                     {item.label}
                     {item.isMega && (
@@ -246,9 +258,9 @@ export default function Navbar() {
                           <div
                             className="rounded-2xl p-3 grid grid-cols-4 gap-2"
                             style={{
-                              background: C.darkGreenDeep,
-                              border: `1px solid ${C.gold}40`,
-                              boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
+                              background: C.cream,
+                              border: `1px solid ${C.gold}30`,
+                              boxShadow: "0 20px 50px rgba(14,31,22,0.2)",
                             }}
                           >
                             {CATEGORIES.map((cat, i) => {
@@ -263,9 +275,9 @@ export default function Navbar() {
                                   transition={{ delay: i * 0.04, duration: 0.2 }}
                                   whileHover={{ y: -3 }}
                                   className="flex flex-col gap-2 rounded-xl p-3.5 transition-colors"
-                                  style={{ background: "rgba(255,255,255,0.03)" }}
-                                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.07)")}
-                                  onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
+                                  style={{ background: "rgba(14,31,22,0.03)" }}
+                                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(14,31,22,0.06)")}
+                                  onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(14,31,22,0.03)")}
                                 >
                                   <span
                                     className="flex h-9 w-9 items-center justify-center rounded-lg"
@@ -273,7 +285,7 @@ export default function Navbar() {
                                   >
                                     <Icon size={17} />
                                   </span>
-                                  <span className="text-[13px] font-semibold" style={{ color: C.cream }}>
+                                  <span className="text-[13px] font-semibold" style={{ color: C.ink }}>
                                     {cat.label}
                                   </span>
                                   <span className="text-[11px] leading-tight" style={{ color: C.gray }}>
@@ -336,7 +348,7 @@ export default function Navbar() {
       >
         <div
           className="flex items-center justify-between px-5 pt-5 pb-4"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+          style={{ borderBottom: `1px solid ${C.gold}20` }}
         >
           <span className="flex items-center h-9">
             <img src="/logo.png" alt="Company Logo" className="h-full w-auto object-contain" />
@@ -358,7 +370,7 @@ export default function Navbar() {
                 <button
                   onClick={() => setMobileCatOpen((v) => !v)}
                   className="w-full flex items-center justify-between rounded-lg px-3 py-3.5 text-base font-medium"
-                  style={{ color: "rgba(243,239,231,0.9)" }}
+                  style={{ color: C.cream }}
                 >
                   {item.label}
                   <motion.span animate={{ rotate: mobileCatOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
@@ -404,7 +416,7 @@ export default function Navbar() {
                 to={item.href}
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between rounded-lg px-3 py-3.5 text-base font-medium"
-                style={{ color: "rgba(243,239,231,0.9)" }}
+                style={{ color: C.cream }}
               >
                 {item.label}
                 <ChevronDown size={16} className="-rotate-90" style={{ color: C.gray }} />
@@ -413,7 +425,7 @@ export default function Navbar() {
           )}
         </div>
 
-        <div className="mt-auto p-4" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+        <div className="mt-auto p-4" style={{ borderTop: `1px solid ${C.gold}20` }}>
           <a
             href="#"
             className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-colors"
