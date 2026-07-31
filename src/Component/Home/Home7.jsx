@@ -2,6 +2,17 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoChevronDown } from "react-icons/io5";
 
+// Forest green + cream + gold palette (matches reference screenshot)
+const C = {
+  green: "#1F3A2E",
+  greenDeep: "#14261D",
+  cream: "#F4EEE4",
+  gold: "#C9A227",
+  goldLight: "#E8C874",
+  white: "#FFFFFF",
+  ink: "#1C2333",
+};
+
 const FAQS = [
   {
     q: "What is FUZO?",
@@ -28,7 +39,8 @@ const FAQS = [
 function FaqRow({ item, isOpen, onClick, isLast }) {
   return (
     <div
-      className={`px-6 sm:px-8 ${!isLast ? "border-b border-white/10" : ""}`}
+      className={`px-6 sm:px-8 ${!isLast ? "border-b" : ""}`}
+      style={{ borderColor: !isLast ? "rgba(232,200,116,0.15)" : "transparent" }}
     >
       <button
         onClick={onClick}
@@ -36,7 +48,7 @@ function FaqRow({ item, isOpen, onClick, isLast }) {
       >
         <span
           className="text-[15px] sm:text-base font-semibold leading-snug"
-          style={{ color: isOpen ? "#d9a441" : "#ffffff" }}
+          style={{ color: isOpen ? C.goldLight : C.white }}
         >
           {item.q}
         </span>
@@ -44,7 +56,7 @@ function FaqRow({ item, isOpen, onClick, isLast }) {
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
           className="flex items-center justify-center shrink-0"
-          style={{ color: "#d9a441" }}
+          style={{ color: C.gold }}
         >
           <IoChevronDown size={18} />
         </motion.span>
@@ -59,7 +71,10 @@ function FaqRow({ item, isOpen, onClick, isLast }) {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <p className="text-white/60 text-sm sm:text-[15px] leading-relaxed pb-5 sm:pb-6 pr-8">
+            <p
+              className="text-sm sm:text-[15px] leading-relaxed pb-5 sm:pb-6 pr-8"
+              style={{ color: "rgba(255,255,255,0.65)" }}
+            >
               {item.a}
             </p>
           </motion.div>
@@ -75,7 +90,7 @@ export default function Home7() {
   return (
     <section
       className="w-full py-16 sm:py-20 md:py-28 px-5 sm:px-8 md:px-12 lg:px-20"
-      
+      style={{ background: C.cream }}
     >
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-16 items-start">
         {/* Heading */}
@@ -85,7 +100,7 @@ export default function Home7() {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="font-extrabold tracking-tight leading-[1.05] text-[42px] sm:text-5xl md:text-6xl lg:text-[56px] whitespace-normal lg:whitespace-pre-line"
-          style={{ color: "#d9a441" }}
+          style={{ color: C.ink, fontFamily: "Georgia, serif" }}
         >
           {"Frequently\nAsked\nQuestions"}
         </motion.h2>
@@ -98,9 +113,9 @@ export default function Home7() {
           transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
           className="w-full rounded-2xl sm:rounded-3xl overflow-hidden backdrop-blur-md"
           style={{
-            background: "black",
-            border: "1px solid rgba(217,164,65,0.25)",
-            boxShadow: "0 20px 50px rgba(0,0,0,0.35)",
+            background: C.greenDeep,
+            border: `1px solid rgba(201,162,39,0.25)`,
+            boxShadow: "0 20px 50px rgba(20,38,29,0.25)",
           }}
         >
           {FAQS.map((item, i) => (

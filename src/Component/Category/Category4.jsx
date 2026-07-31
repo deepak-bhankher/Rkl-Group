@@ -2,23 +2,21 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingBag, Eye, X, ChevronRight, SlidersHorizontal, ImageOff } from "lucide-react";
 
+// Color palette matching Home3
 const C = {
-  navy: "#0B1B3A",
-  navyDeep: "#071227",
-  gold: "#C9A227",
-  goldLight: "#E8C874",
-  maroon: "#7A1F2B",
-  silver: "#B8BCC2",
-  white: "#FFFFFF",
-  ink: "#1C2333",
-  paper: "#F7F5F1",
+  cream: "#F3EFE7",
+  creamDeep: "#ECE7DC",
+  ink: "#1D1D1B",
+  gray: "#6B6B66",
+  gold: "#B08D45",
+  goldDark: "#8C6F35",
+  darkGreen: "#0E1F16",
+  darkGreenDeep: "#0A170F",
 };
 
-const ACCENT = "#7A1F2B";
-const ACCENT_LIGHT = "#A8465A";
+const ACCENT = C.darkGreen;
+const ACCENT_LIGHT = C.gold;
 
-// 👉 Image path yaha daalna — public folder me file rakh ke path likh dena
-// e.g. image: "/products/fidgety.jpg"
 const PRODUCTS = [
   {
     "name": "Voyager",
@@ -88,9 +86,9 @@ const PRODUCTS = [
 function ProductImage({ image, name }) {
   if (!image) {
     return (
-      <div className="flex h-full w-full flex-col items-center justify-center gap-1.5" style={{ background: "#ECECEC" }}>
-        <ImageOff size={22} style={{ color: "#B8BCC2" }} />
-        <span className="text-[10.5px]" style={{ color: "#9CA0AA" }}>Image coming soon</span>
+      <div className="flex h-full w-full flex-col items-center justify-center gap-1.5" style={{ background: C.creamDeep }}>
+        <ImageOff size={22} style={{ color: C.gray }} />
+        <span className="text-[10.5px]" style={{ color: C.gray }}>Image coming soon</span>
       </div>
     );
   }
@@ -108,15 +106,15 @@ function ProductCard({ product, index, onPreview }) {
       className="group rounded-2xl overflow-hidden flex flex-col"
       style={{
         background: C.white,
-        border: "1px solid rgba(11,27,58,0.08)",
-        boxShadow: "0 2px 10px rgba(11,27,58,0.05)",
+        border: `1px solid ${C.gold}20`,
+        boxShadow: "0 2px 10px rgba(14,31,22,0.06)",
       }}
     >
       <div className="relative overflow-hidden" style={{ aspectRatio: "1 / 1" }}>
         <ProductImage image={product.image} name={product.name} />
         <span
           className="absolute top-3 left-3 rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wide"
-          style={{ background: ACCENT, color: C.white }}
+          style={{ background: ACCENT, color: C.cream }}
         >
           BAGS
         </span>
@@ -125,7 +123,7 @@ function ProductCard({ product, index, onPreview }) {
           whileTap={{ scale: 0.94 }}
           onClick={() => onPreview(product)}
           className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold"
-          style={{ background: "rgba(11,27,58,0.85)", color: C.goldLight }}
+          style={{ background: "rgba(14,31,22,0.85)", color: C.gold }}
         >
           <Eye size={13} />
           Preview
@@ -136,19 +134,29 @@ function ProductCard({ product, index, onPreview }) {
         <h3 className="text-[15px] font-bold" style={{ color: C.ink }}>
           {product.name}
         </h3>
-        <p className="text-[12.5px] leading-snug line-clamp-2" style={{ color: "#6B7180" }}>
+        <p className="text-[12.5px] leading-snug line-clamp-2" style={{ color: C.gray }}>
           {product.desc}
         </p>
 
         <div className="mt-2 flex items-center justify-between">
-          <span className="text-[16px] font-bold" style={{ color: C.navy }}>
+          <span className="text-[16px] font-bold" style={{ color: C.darkGreen }}>
             Rs.{product.price}.00
           </span>
           <motion.button
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            className="flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12px] font-semibold"
-            style={{ border: `1.5px solid ${ACCENT}`, color: ACCENT }}
+            className="flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12px] font-semibold transition-all duration-300"
+            style={{ border: `1.5px solid ${C.gold}`, color: C.gold }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`;
+              e.currentTarget.style.color = C.cream;
+              e.currentTarget.style.borderColor = C.gold;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = C.gold;
+              e.currentTarget.style.borderColor = C.gold;
+            }}
           >
             <ShoppingBag size={14} />
             Add
@@ -170,7 +178,7 @@ function PreviewModal({ product, onClose }) {
             exit={{ opacity: 0 }}
             onClick={onClose}
             className="fixed inset-0 z-[60]"
-            style={{ background: "rgba(7,18,39,0.65)" }}
+            style={{ background: "rgba(14,26,20,0.65)" }}
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.94, y: 16 }}
@@ -183,7 +191,7 @@ function PreviewModal({ product, onClose }) {
             <button
               onClick={onClose}
               className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full"
-              style={{ background: "rgba(11,27,58,0.75)", color: C.white }}
+              style={{ background: "rgba(14,31,22,0.75)", color: C.white }}
             >
               <X size={16} />
             </button>
@@ -194,18 +202,21 @@ function PreviewModal({ product, onClose }) {
               <h3 className="text-[19px] font-bold" style={{ color: C.ink }}>
                 {product.name}
               </h3>
-              <p className="mt-1.5 text-[13.5px] leading-relaxed" style={{ color: "#6B7180" }}>
+              <p className="mt-1.5 text-[13.5px] leading-relaxed" style={{ color: C.gray }}>
                 {product.desc}
               </p>
               <div className="mt-4 flex items-center justify-between">
-                <span className="text-[19px] font-bold" style={{ color: C.navy }}>
+                <span className="text-[19px] font-bold" style={{ color: C.darkGreen }}>
                   Rs.{product.price}.00
                 </span>
                 <motion.button
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.96 }}
-                  className="flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[13px] font-semibold"
-                  style={{ background: ACCENT, color: C.white }}
+                  className="flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[13px] font-semibold transition-all duration-300"
+                  style={{ 
+                    background: `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`,
+                    color: C.cream
+                  }}
                 >
                   <ShoppingBag size={15} />
                   Add to Cart
@@ -224,15 +235,15 @@ export default function BagsCategory() {
   const [previewProduct, setPreviewProduct] = useState(null);
 
   return (
-    <div style={{ fontFamily: "Inter, system-ui, sans-serif", background: C.paper, minHeight: "100vh" }}>
+    <div style={{ fontFamily: "Inter, system-ui, sans-serif", background: C.cream, minHeight: "100vh" }}>
       {/* ---- Hero ---- */}
       <div
         className="relative overflow-hidden"
-        style={{ background: `linear-gradient(120deg, ${C.navyDeep} 0%, ${C.navy} 55%, ${ACCENT} 160%)` }}
+        style={{ background: `linear-gradient(120deg, ${C.darkGreenDeep} 0%, ${C.darkGreen} 100%)` }}
       >
         <div
           className="pointer-events-none absolute -top-16 -right-16 h-72 w-72 rounded-full"
-          style={{ background: `radial-gradient(circle, ${ACCENT_LIGHT}55, transparent 70%)`, filter: "blur(20px)" }}
+          style={{ background: `radial-gradient(circle, ${C.gold}44, transparent 70%)`, filter: "blur(20px)" }}
         />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-12 sm:py-16">
           <motion.div
@@ -246,7 +257,7 @@ export default function BagsCategory() {
             <ChevronRight size={13} />
             <span>Categories</span>
             <ChevronRight size={13} />
-            <span style={{ color: C.goldLight }}>Bags & Travel</span>
+            <span style={{ color: C.gold }}>Bags & Travel</span>
           </motion.div>
 
           <motion.h1
@@ -254,7 +265,7 @@ export default function BagsCategory() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.05 }}
             className="text-[32px] sm:text-[42px] font-extrabold leading-tight"
-            style={{ color: C.white }}
+            style={{ color: C.cream }}
           >
             Bags & Travel
           </motion.h1>
@@ -274,12 +285,12 @@ export default function BagsCategory() {
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 -mt-6 relative z-10">
         <div
           className="flex items-center justify-between rounded-2xl px-4 sm:px-5 py-3.5"
-          style={{ background: C.white, boxShadow: "0 8px 24px rgba(11,27,58,0.12)" }}
+          style={{ background: C.white, boxShadow: "0 8px 24px rgba(14,31,22,0.14)" }}
         >
           <span className="text-[13px] font-semibold" style={{ color: C.ink }}>
             {PRODUCTS.length} products
           </span>
-          <div className="flex items-center gap-2 text-[12.5px]" style={{ color: "#5B6072" }}>
+          <div className="flex items-center gap-2 text-[12.5px]" style={{ color: C.gray }}>
             <SlidersHorizontal size={14} />
             <select
               value={sort}

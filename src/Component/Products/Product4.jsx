@@ -10,33 +10,30 @@ import {
   ImageOff,
 } from "lucide-react";
 
+// Color palette matching Home3
 const C = {
-  navy: "#0B1B3A",
-  navyDeep: "#071227",
-  gold: "#C9A227",
-  goldLight: "#E8C874",
-  maroon: "#7A1F2B",
-  silver: "#B8BCC2",
-  white: "#FFFFFF",
-  ink: "#1C2333",
-  paper: "#F7F5F1",
+  cream: "#F3EFE7",
+  creamDeep: "#ECE7DC",
+  ink: "#1D1D1B",
+  gray: "#6B6B66",
+  gold: "#B08D45",
+  goldDark: "#8C6F35",
+  darkGreen: "#0E1F16",
+  darkGreenDeep: "#0A170F",
 };
 
-// 👉 Image paths yaha daalna — public folder me files rakh ke path likh dena
-// e.g. "/products/voyager/1.jpg"
 const GALLERY = ["home9.png", "home8.png", "home7.png"];
 
-const UNIT_PRICE = 50; // price per unit at 50 qty
+const UNIT_PRICE = 50;
 const QTY_TIERS = [25, 50, 100, 250, 500];
 const TIER_FACTOR = { 25: 1.15, 50: 1, 100: 0.9, 250: 0.8, 500: 0.65 };
 const SIZE_OPTIONS = ["Standard", "Compact", "Large"];
 
-
 function GalleryImage({ src }) {
   if (!src) {
     return (
-      <div className="flex h-full w-full items-center justify-center" style={{ background: "#ECECEC" }}>
-        <ImageOff size={28} style={{ color: "#B8BCC2" }} />
+      <div className="flex h-full w-full items-center justify-center" style={{ background: C.creamDeep }}>
+        <ImageOff size={28} style={{ color: C.gray }} />
       </div>
     );
   }
@@ -53,10 +50,10 @@ export default function Product4() {
   const total = unitForQty * qty;
 
   return (
-    <div style={{ fontFamily: "Inter, system-ui, sans-serif", background: C.paper, minHeight: "100vh" }}>
+    <div style={{ fontFamily: "Inter, system-ui, sans-serif", background: C.cream, minHeight: "100vh" }}>
       {/* ---- Breadcrumb ---- */}
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-6">
-        <div className="flex items-center gap-1.5 text-[12.5px]" style={{ color: "#7A8092" }}>
+        <div className="flex items-center gap-1.5 text-[12.5px]" style={{ color: C.gray }}>
           <span>Home</span>
           <ChevronRight size={13} />
           <span>Bags & Travel</span>
@@ -74,12 +71,16 @@ export default function Product4() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
             className="relative overflow-hidden rounded-2xl"
-            style={{ aspectRatio: "1 / 1", border: "1px solid rgba(11,27,58,0.08)" }}
+            style={{ 
+              aspectRatio: "1 / 1", 
+              border: `1px solid ${C.gold}20`,
+              background: C.white
+            }}
           >
             <GalleryImage src={GALLERY[activeImg]} />
             <span
               className="absolute top-3 left-3 rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wide"
-              style={{ background: C.gold, color: C.navy }}
+              style={{ background: C.gold, color: C.cream }}
             >
               BESTSELLER
             </span>
@@ -94,7 +95,8 @@ export default function Product4() {
                 className="relative overflow-hidden rounded-xl"
                 style={{
                   aspectRatio: "1 / 1",
-                  border: activeImg === i ? `2px solid ${C.gold}` : "1px solid rgba(11,27,58,0.1)",
+                  border: activeImg === i ? `2px solid ${C.gold}` : `1px solid ${C.gold}20`,
+                  background: C.white
                 }}
               >
                 <GalleryImage src={src} />
@@ -103,7 +105,7 @@ export default function Product4() {
           </div>
         </div>
 
-        {/* ============ SECTION 2 — INFO PANEL (VistaPrint style) ============ */}
+        {/* ============ SECTION 2 — INFO PANEL ============ */}
         <div>
           <h1 className="text-[26px] sm:text-[30px] font-extrabold" style={{ color: C.ink }}>
             Voyager
@@ -116,42 +118,42 @@ export default function Product4() {
               ))}
               <Star size={15} style={{ color: "#D8D5CC" }} />
             </div>
-            <span className="text-[12.5px]" style={{ color: "#7A8092" }}>
+            <span className="text-[12.5px]" style={{ color: C.gray }}>
               4 (3)
             </span>
           </div>
 
-          <p className="mt-3 text-[13.5px]" style={{ color: "#5B6072" }}>
+          <p className="mt-3 text-[13.5px]" style={{ color: C.gray }}>
             Get your logo noticed with this anti-theft laptop backpack
           </p>
 
-          <div className="mt-4 pt-4" style={{ borderTop: "1px solid rgba(11,27,58,0.08)" }}>
-            <p className="text-[12.5px]" style={{ color: "#7A8092" }}>
+          <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${C.gold}20` }}>
+            <p className="text-[12.5px]" style={{ color: C.gray }}>
               Price below is MRP (inclusive of all taxes)
             </p>
-            <button className="text-[12.5px] font-semibold underline mt-0.5" style={{ color: C.navy }}>
+            <button className="text-[12.5px] font-semibold underline mt-0.5" style={{ color: C.ink }}>
               See Details
             </button>
           </div>
 
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-[28px] font-extrabold" style={{ color: C.navy }}>
+            <span className="text-[28px] font-extrabold" style={{ color: C.ink }}>
               ₹{total.toLocaleString("en-IN")}.00
             </span>
           </div>
-          <p className="text-[12.5px]" style={{ color: "#7A8092" }}>
+          <p className="text-[12.5px]" style={{ color: C.gray }}>
             ₹{unitForQty}.00 each / {qty} units
           </p>
 
           <div className="mt-4 flex flex-col gap-1.5 text-[12.5px]" style={{ color: C.ink }}>
             <span className="flex items-center gap-2">
-              <Truck size={15} style={{ color: "#7A8092" }} />
+              <Truck size={15} style={{ color: C.gray }} />
               Delivery to 110001{" "}
-              <button className="font-semibold underline" style={{ color: C.navy }}>
+              <button className="font-semibold underline" style={{ color: C.ink }}>
                 More information
               </button>
             </span>
-            <span className="flex items-center gap-2 ml-[23px]" style={{ color: "#2F7D46", fontWeight: 600 }}>
+            <span className="flex items-center gap-2 ml-[23px]" style={{ color: C.gold, fontWeight: 600 }}>
               28 July · FREE
             </span>
           </div>
@@ -166,7 +168,11 @@ export default function Product4() {
                 value={size}
                 onChange={(e) => setSize(e.target.value)}
                 className="w-full appearance-none rounded-lg px-4 py-3 text-[13.5px] font-medium outline-none"
-                style={{ border: "1px solid rgba(11,27,58,0.2)", color: C.ink, background: C.white }}
+                style={{ 
+                  border: `1px solid ${C.gold}30`, 
+                  color: C.ink, 
+                  background: C.white 
+                }}
               >
                 {SIZE_OPTIONS.map((s) => (
                   <option key={s} value={s}>
@@ -174,7 +180,7 @@ export default function Product4() {
                   </option>
                 ))}
               </select>
-              <ChevronDown size={15} className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" style={{ color: "#7A8092" }} />
+              <ChevronDown size={15} className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" style={{ color: C.gray }} />
             </div>
           </div>
 
@@ -188,7 +194,11 @@ export default function Product4() {
                 value={qty}
                 onChange={(e) => setQty(Number(e.target.value))}
                 className="w-full appearance-none rounded-lg px-4 py-3 text-[13.5px] font-medium outline-none"
-                style={{ border: "1px solid rgba(11,27,58,0.2)", color: C.ink, background: C.white }}
+                style={{ 
+                  border: `1px solid ${C.gold}30`, 
+                  color: C.ink, 
+                  background: C.white 
+                }}
               >
                 {QTY_TIERS.map((q) => (
                   <option key={q} value={q}>
@@ -196,7 +206,7 @@ export default function Product4() {
                   </option>
                 ))}
               </select>
-              <ChevronDown size={15} className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" style={{ color: "#7A8092" }} />
+              <ChevronDown size={15} className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" style={{ color: C.gray }} />
             </div>
           </div>
 
@@ -205,8 +215,11 @@ export default function Product4() {
             <motion.div
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.98 }}
-              className="mt-6 flex items-center justify-center gap-2 rounded-lg py-3.5 text-[14px] font-bold"
-              style={{ background: C.gold, color: C.navy }}
+              className="mt-6 flex items-center justify-center gap-2 rounded-lg py-3.5 text-[14px] font-bold transition-all duration-300"
+              style={{ 
+                background: `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`,
+                color: C.cream
+              }}
             >
               Upload design
               <UploadCloud size={17} />
@@ -217,13 +230,13 @@ export default function Product4() {
 
       {/* ============ SECTION 3 — DETAILS TABS ============ */}
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-10">
-        <div className="flex gap-6 border-b" style={{ borderColor: "rgba(11,27,58,0.1)" }}>
+        <div className="flex gap-6 border-b" style={{ borderColor: `${C.gold}20` }}>
           {["description", "specifications", "reviews"].map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className="relative pb-3 text-[13.5px] font-semibold capitalize"
-              style={{ color: tab === t ? C.navy : "#9CA0AA" }}
+              style={{ color: tab === t ? C.ink : C.gray }}
             >
               {t}
               {tab === t && (
@@ -241,7 +254,7 @@ export default function Product4() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
             className="pt-5 text-[13.5px] leading-relaxed"
-            style={{ color: "#5B6072" }}
+            style={{ color: C.gray }}
           >
             {tab === "description" && <p>Voyager is built for daily commutes and business travel alike — a hidden-zip anti-theft design, a padded 15-inch laptop sleeve, and enough compartments to keep everything from cables to passports in its place.</p>}
             {tab === "specifications" && (
@@ -262,7 +275,6 @@ export default function Product4() {
           </motion.div>
         </AnimatePresence>
       </div>
-
     </div>
   );
 }

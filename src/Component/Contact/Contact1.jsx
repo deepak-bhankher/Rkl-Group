@@ -1,6 +1,18 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, Package, Gift, Sparkles } from 'lucide-react'
+
+// Color palette matching Home3
+const C = {
+  cream: "#F3EFE7",
+  creamDeep: "#ECE7DC",
+  ink: "#1D1D1B",
+  gray: "#6B6B66",
+  gold: "#B08D45",
+  goldDark: "#8C6F35",
+  darkGreen: "#0E1F16",
+  darkGreenDeep: "#0A170F",
+};
 
 const Contact1 = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
@@ -15,12 +27,17 @@ const Contact1 = () => {
   }
 
   return (
-    <section className="relative bg-[#0A1F44] py-20 px-6 md:px-12 lg:px-20 overflow-hidden">
-      {/* Gold accent glow */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#C9A24B]/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#800020]/10 rounded-full blur-3xl" />
+    <section className="relative py-24 px-6 md:px-12 lg:px-20 overflow-hidden" style={{ background: C.cream }}>
+      {/* Decorative gold accents */}
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl" style={{ background: `${C.gold}08` }} />
+      <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full blur-3xl" style={{ background: `${C.gold}06` }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl" style={{ background: `${C.gold}03` }} />
 
-      <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+      {/* Decorative border lines */}
+      <div className="absolute top-20 left-0 w-1/3 h-px bg-gradient-to-r from-transparent" style={{ background: `linear-gradient(to right, transparent, ${C.gold}40)` }} />
+      <div className="absolute bottom-20 right-0 w-1/3 h-px bg-gradient-to-l from-transparent" style={{ background: `linear-gradient(to left, transparent, ${C.gold}40)` }} />
+
+      <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
         {/* Left - Info */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -29,14 +46,21 @@ const Contact1 = () => {
           transition={{ duration: 0.7, ease: 'easeOut' }}
           className="flex flex-col justify-center"
         >
-          <span className="text-[#C9A24B] uppercase tracking-[0.2em] text-sm font-medium mb-4">
-            Get In Touch
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#E5E5E5] leading-tight mb-6">
-            Let's Build Something
-            <span className="block text-[#C9A24B]">Memorable Together</span>
+          <div className="inline-flex items-center gap-2 mb-4">
+            <Sparkles size={16} style={{ color: C.gold }} />
+            <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: C.gold }}>
+              Get In Touch
+            </span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4" style={{ color: C.ink }}>
+            Let's Build
+            <span className="block" style={{ color: C.gold, fontStyle: "italic" }}>Something Memorable</span>
           </h2>
-          <p className="text-[#C0C0C0] text-base md:text-lg mb-10 max-w-md">
+          
+          <div className="w-20 h-1 mb-6" style={{ background: C.gold }} />
+
+          <p className="text-base md:text-lg mb-12 max-w-md leading-relaxed" style={{ color: C.gray }}>
             Reach out for corporate gifting solutions, bulk orders, or custom branded merchandise tailored to your business.
           </p>
 
@@ -52,17 +76,35 @@ const Contact1 = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="flex items-center gap-4"
+                className="group flex items-center gap-4 cursor-pointer"
               >
-                <div className="w-11 h-11 rounded-full bg-[#800020]/20 border border-[#C9A24B]/30 flex items-center justify-center flex-shrink-0">
-                  <item.icon size={18} className="text-[#C9A24B]" />
+                <div 
+                  className="w-12 h-12 rounded-full border flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:border-[#C9A24B]"
+                  style={{ 
+                    background: `${C.gold}15`,
+                    borderColor: `${C.gold}30`,
+                  }}
+                >
+                  <item.icon size={20} style={{ color: C.gold }} className="group-hover:scale-110 transition-transform duration-300" />
                 </div>
                 <div>
-                  <p className="text-[#C0C0C0] text-xs uppercase tracking-wider">{item.label}</p>
-                  <p className="text-[#E5E5E5] text-sm md:text-base">{item.value}</p>
+                  <p className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: C.gray }}>{item.label}</p>
+                  <p className="text-base md:text-lg font-medium" style={{ color: C.ink }}>{item.value}</p>
                 </div>
               </motion.div>
             ))}
+          </div>
+
+          {/* Trust badges */}
+          <div className="flex items-center gap-6 mt-10 pt-8 border-t" style={{ borderColor: `${C.gold}20` }}>
+            <div className="flex items-center gap-2">
+              <Gift size={18} style={{ color: C.gold }} />
+              <span className="text-xs" style={{ color: C.gray }}>Premium Quality</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Package size={18} style={{ color: C.gold }} />
+              <span className="text-xs" style={{ color: C.gray }}>Bulk Orders</span>
+            </div>
           </div>
         </motion.div>
 
@@ -72,11 +114,22 @@ const Contact1 = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
-          className="bg-[#0F2A55] border border-[#C9A24B]/20 rounded-2xl p-6 md:p-10 shadow-2xl"
+          className="rounded-2xl p-8 md:p-12 shadow-2xl backdrop-blur-sm transition-colors duration-500"
+          style={{ 
+            background: `${C.darkGreen}E6`,
+            border: `1px solid ${C.gold}20`,
+          }}
         >
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: `${C.gold}20` }}>
+              <Send size={14} style={{ color: C.gold }} />
+            </div>
+            <h3 className="text-xl font-semibold" style={{ color: C.cream }}>Send a Message</h3>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-[#C0C0C0] text-xs uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold tracking-[0.2em] uppercase mb-2" style={{ color: C.cream }}>
                 Full Name
               </label>
               <input
@@ -85,12 +138,18 @@ const Contact1 = () => {
                 value={form.name}
                 onChange={handleChange}
                 placeholder="Your name"
-                className="w-full bg-[#0A1F44] border border-[#C9A24B]/20 rounded-lg px-4 py-3 text-[#E5E5E5] placeholder-[#C0C0C0]/40 focus:outline-none focus:border-[#C9A24B]/60 transition-colors duration-300"
+                className="w-full rounded-xl px-5 py-3.5 transition-all duration-300 focus:outline-none focus:ring-1"
+                style={{ 
+                  background: `${C.darkGreenDeep}`,
+                  border: `1px solid ${C.gold}20`,
+                  color: C.cream,
+                  placeholderColor: `${C.cream}30`,
+                }}
               />
             </div>
 
             <div>
-              <label className="block text-[#C0C0C0] text-xs uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold tracking-[0.2em] uppercase mb-2" style={{ color: C.cream }}>
                 Email Address
               </label>
               <input
@@ -99,21 +158,33 @@ const Contact1 = () => {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="you@company.com"
-                className="w-full bg-[#0A1F44] border border-[#C9A24B]/20 rounded-lg px-4 py-3 text-[#E5E5E5] placeholder-[#C0C0C0]/40 focus:outline-none focus:border-[#C9A24B]/60 transition-colors duration-300"
+                className="w-full rounded-xl px-5 py-3.5 transition-all duration-300 focus:outline-none focus:ring-1"
+                style={{ 
+                  background: `${C.darkGreenDeep}`,
+                  border: `1px solid ${C.gold}20`,
+                  color: C.cream,
+                  placeholderColor: `${C.cream}30`,
+                }}
               />
             </div>
 
             <div>
-              <label className="block text-[#C0C0C0] text-xs uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold tracking-[0.2em] uppercase mb-2" style={{ color: C.cream }}>
                 Message
               </label>
               <textarea
                 name="message"
                 value={form.message}
                 onChange={handleChange}
-                rows={4}
-                placeholder="Tell us about your requirement"
-                className="w-full bg-[#0A1F44] border border-[#C9A24B]/20 rounded-lg px-4 py-3 text-[#E5E5E5] placeholder-[#C0C0C0]/40 focus:outline-none focus:border-[#C9A24B]/60 transition-colors duration-300 resize-none"
+                rows={5}
+                placeholder="Tell us about your requirement..."
+                className="w-full rounded-xl px-5 py-3.5 transition-all duration-300 focus:outline-none focus:ring-1 resize-none"
+                style={{ 
+                  background: `${C.darkGreenDeep}`,
+                  border: `1px solid ${C.gold}20`,
+                  color: C.cream,
+                  placeholderColor: `${C.cream}30`,
+                }}
               />
             </div>
 
@@ -121,10 +192,14 @@ const Contact1 = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full flex items-center cursor-pointer justify-center gap-2 bg-[#C9A24B] text-[#0A1F44] font-semibold py-3.5 rounded-lg mt-2 hover:bg-[#d9b566] transition-colors duration-300"
+              className="w-full flex items-center justify-center gap-3 font-semibold py-4 rounded-xl transition-all duration-300"
+              style={{ 
+                background: `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`,
+                color: C.cream
+              }}
             >
               Send Message
-              <Send size={16} />
+              <Send size={18} className="group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </form>
         </motion.div>

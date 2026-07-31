@@ -1,7 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, animate } from "framer-motion";
 
-const GOLD = "#d9a441";
+// Palette matched exactly with Home3.jsx
+const C = {
+  cream: "#F3EFE7",
+  creamDeep: "#ECE7DC",
+  ink: "#1D1D1B",
+  gray: "#6B6B66",
+  gold: "#B08D45",
+  goldDark: "#8C6F35",
+  darkGreen: "#0E1F16",
+  darkGreenDeep: "#0A170F",
+};
 
 const STATS = [
   { value: 500, suffix: "+", label: "Corporate Clients" },
@@ -37,16 +47,16 @@ export default function About3() {
   return (
     <section
       className="w-full py-16 sm:py-20 md:py-28 px-5 sm:px-8 md:px-12 lg:px-20 overflow-hidden relative"
-      style={{ background: "#0e0e0e" }}
+      style={{ background: C.darkGreenDeep }}
     >
       {/* ambient glow */}
       <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 0.35 }}
+        whileInView={{ opacity: 0.3 }}
         viewport={{ once: true }}
         transition={{ duration: 1.2 }}
         className="pointer-events-none absolute -top-32 -right-32 w-[420px] h-[420px] rounded-full blur-[110px]"
-        style={{ background: GOLD }}
+        style={{ background: C.gold }}
       />
 
       <div className="max-w-6xl mx-auto relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -57,7 +67,7 @@ export default function About3() {
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.4 }}
             className="text-xs font-bold tracking-[0.2em] mb-4"
-            style={{ color: GOLD }}
+            style={{ color: C.gold }}
           >
             OUR STORY
           </motion.p>
@@ -67,7 +77,8 @@ export default function About3() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.55, delay: 0.05, ease: "easeOut" }}
-            className="text-3xl sm:text-4xl md:text-[44px] font-extrabold text-white leading-tight mb-5"
+            className="text-3xl sm:text-4xl md:text-[44px] font-extrabold leading-tight mb-5"
+            style={{ color: C.cream }}
           >
             Built on trust,
             <br />
@@ -79,7 +90,8 @@ export default function About3() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.55, delay: 0.15, ease: "easeOut" }}
-            className="text-white/60 text-[15px] sm:text-base leading-relaxed max-w-lg"
+            className="text-[15px] sm:text-base leading-relaxed max-w-lg"
+            style={{ color: C.cream, opacity: 0.65 }}
           >
             What started as a small team with a simple idea — better corporate
             gifting for Indian businesses — has grown into a partner trusted
@@ -100,8 +112,8 @@ export default function About3() {
               whileTap={{ scale: 0.97 }}
               className="px-7 py-3 rounded-full text-sm font-semibold cursor-pointer"
               style={{
-                background: GOLD,
-                color: "#1a1a1a",
+                background: C.gold,
+                color: C.darkGreenDeep,
               }}
             >
               Learn Our Journey
@@ -120,17 +132,17 @@ export default function About3() {
               whileHover={{ y: -4 }}
               className="rounded-2xl p-5 sm:p-7"
               style={{
-                background: "rgba(217,164,65,0.06)",
-                border: "1px solid rgba(217,164,65,0.2)",
+                background: `${C.gold}10`,
+                border: `1px solid ${C.gold}30`,
               }}
             >
               <p
                 className="text-3xl sm:text-4xl md:text-[42px] font-black mb-1"
-                style={{ color: GOLD }}
+                style={{ color: C.gold }}
               >
                 <Counter value={stat.value} suffix={stat.suffix} />
               </p>
-              <p className="text-white/55 text-xs sm:text-sm font-medium">
+              <p className="text-xs sm:text-sm font-medium" style={{ color: C.cream, opacity: 0.55 }}>
                 {stat.label}
               </p>
             </motion.div>

@@ -16,16 +16,16 @@ import {
   Leaf,
 } from "lucide-react";
 
-// Palette lifted straight from the reference swatches
+// Palette matched exactly with Home3.jsx
 const C = {
-  navy: "#0B1B3A",
-  navyDeep: "#071227",
-  gold: "#C9A227",
-  goldLight: "#E8C874",
-  maroon: "#7A1F2B",
-  silver: "#B8BCC2",
-  white: "#FFFFFF",
-  ink: "#1C2333",
+  cream: "#F3EFE7",
+  creamDeep: "#ECE7DC",
+  ink: "#1D1D1B",
+  gray: "#6B6B66",
+  gold: "#B08D45",
+  goldDark: "#8C6F35",
+  darkGreen: "#0E1F16",
+  darkGreenDeep: "#0A170F",
 };
 
 const MotionLink = motion(Link);
@@ -35,7 +35,7 @@ const CATEGORIES = [
   { label: "Speakers & Audio", href: "/category/speakers", icon: Volume2, desc: "Bluetooth & wireless sound", accent: "#8A8A2B" },
   { label: "Power & Charging", href: "/category/power", icon: BatteryCharging, desc: "Chargers, banks & cables", accent: "#1F7A6B" },
   { label: "Clocks & Timepieces", href: "/category/clocks", icon: Watch, desc: "Alarm clocks & wearables", accent: "#C9791A" },
-  { label: "Bags & Travel", href: "/category/bags", icon: Briefcase, desc: "Backpacks & travel gear", accent: "#7A1F2B" },
+  { label: "Bags & Travel", href: "/category/bags", icon: Briefcase, desc: "Backpacks & travel gear", accent: "#8C6F35" },
   { label: "Desk & Office", href: "/category/office", icon: PenTool, desc: "Stationery & desk essentials", accent: "#16244A" },
   { label: "Apparel & Wearables", href: "/category/apparel", icon: Shirt, desc: "Caps, tees & merch", accent: "#5B5E66" },
   { label: "Eco & Lifestyle", href: "/category/eco", icon: Leaf, desc: "Sustainable everyday picks", accent: "#2F7D46" },
@@ -87,8 +87,7 @@ export default function Navbar() {
       <nav
         className="sticky top-0 z-50 transition-shadow duration-300 relative overflow-visible"
         style={{
-          background:
-            "linear-gradient(90deg, #9A2338 0%, #7A1F2B 22%, #4A2038 42%, #16244A 62%, #0B1B3A 100%)",
+          background: `linear-gradient(90deg, ${C.darkGreenDeep} 0%, ${C.darkGreen} 100%)`,
           boxShadow: scrolled ? "0 6px 24px rgba(0,0,0,0.35)" : "0 1px 0 rgba(255,255,255,0.06)",
         }}
       >
@@ -97,14 +96,14 @@ export default function Navbar() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.10) 48%, rgba(255,255,255,0.02) 55%, transparent 65%)",
+              "linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.06) 48%, rgba(255,255,255,0.02) 55%, transparent 65%)",
           }}
         />
-        {/* soft red glow accent behind the logo */}
+        {/* soft gold glow accent behind the logo */}
         <div
           className="pointer-events-none absolute -top-10 left-0 h-40 w-72"
           style={{
-            background: "radial-gradient(circle, rgba(154,35,56,0.45), transparent 70%)",
+            background: `radial-gradient(circle, ${C.gold}40, transparent 70%)`,
             filter: "blur(10px)",
           }}
         />
@@ -116,7 +115,7 @@ export default function Navbar() {
               onClick={() => setOpen(true)}
               aria-label="Open menu"
               className="lg:hidden -ml-1 flex h-10 w-10 items-center justify-center rounded-md focus:outline-none focus-visible:ring-2"
-              style={{ color: C.goldLight, outlineColor: C.gold }}
+              style={{ color: C.gold, outlineColor: C.gold }}
             >
               <Menu size={24} />
             </button>
@@ -126,7 +125,7 @@ export default function Navbar() {
               <motion.img
                 src="/logo.png"
                 alt="Company Logo"
-                className="h-full w-full object-contain drop-shadow-[0_0_10px_rgba(201,162,39,0.35)]"
+                className="h-full w-full object-contain drop-shadow-[0_0_10px_rgba(176,141,69,0.35)]"
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: [0, -3, 0] }}
                 transition={{
@@ -141,21 +140,21 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-3 ml-auto">
               <div
                 className="flex items-center gap-2 rounded-full px-3.5 py-2 w-48 lg:w-64 transition-colors"
-                style={{ background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.16)" }}
+                style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)" }}
               >
-                <Search size={15} style={{ color: C.silver }} />
+                <Search size={15} style={{ color: C.gray }} />
                 <input
                   type="text"
                   placeholder="Search..."
                   className="w-full bg-transparent text-sm outline-none placeholder:text-[13px]"
-                  style={{ color: C.white }}
+                  style={{ color: C.cream }}
                 />
               </div>
 
               <a
                 href="#"
                 className="hidden sm:flex h-10 w-10 items-center justify-center rounded-full transition-colors"
-                style={{ color: C.silver }}
+                style={{ color: C.gray }}
                 aria-label="Account"
               >
                 <User size={20} />
@@ -168,7 +167,7 @@ export default function Navbar() {
                 onClick={() => setSearchOpen((v) => !v)}
                 aria-label="Search"
                 className="flex h-10 w-10 items-center justify-center rounded-full"
-                style={{ color: C.silver }}
+                style={{ color: C.gray }}
               >
                 <Search size={20} />
               </button>
@@ -182,15 +181,15 @@ export default function Navbar() {
           >
             <div
               className="flex items-center gap-2 rounded-full px-4 py-2 mb-3"
-              style={{ background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.16)" }}
+              style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)" }}
             >
-              <Search size={16} style={{ color: C.silver }} />
+              <Search size={16} style={{ color: C.gray }} />
               <input
                 ref={searchRef}
                 type="text"
                 placeholder="Search products..."
                 className="w-full bg-transparent text-sm outline-none"
-                style={{ color: C.white }}
+                style={{ color: C.cream }}
               />
             </div>
           </div>
@@ -199,7 +198,7 @@ export default function Navbar() {
         {/* ---- Section strip — desktop, centered ---- */}
         <div
           className="hidden lg:block relative"
-          style={{ background: C.navyDeep, borderTop: "1px solid rgba(255,255,255,0.06)" }}
+          style={{ background: C.darkGreenDeep, borderTop: "1px solid rgba(255,255,255,0.06)" }}
         >
           <div className="mx-auto max-w-7xl px-10">
             <ul className="flex items-center justify-center gap-10">
@@ -213,9 +212,9 @@ export default function Navbar() {
                   <Link
                     to={item.href}
                     className="group relative flex items-center gap-1 py-3 text-[13px] font-medium tracking-wide transition-colors"
-                    style={{ color: megaOpen && item.isMega ? C.goldLight : "rgba(255,255,255,0.82)" }}
-                    onMouseEnter={(e) => { if (!item.isMega) e.currentTarget.style.color = C.goldLight; }}
-                    onMouseLeave={(e) => { if (!item.isMega) e.currentTarget.style.color = "rgba(255,255,255,0.82)"; }}
+                    style={{ color: megaOpen && item.isMega ? C.gold : "rgba(243,239,231,0.82)" }}
+                    onMouseEnter={(e) => { if (!item.isMega) e.currentTarget.style.color = C.gold; }}
+                    onMouseLeave={(e) => { if (!item.isMega) e.currentTarget.style.color = "rgba(243,239,231,0.82)"; }}
                   >
                     {item.label}
                     {item.isMega && (
@@ -247,8 +246,8 @@ export default function Navbar() {
                           <div
                             className="rounded-2xl p-3 grid grid-cols-4 gap-2"
                             style={{
-                              background: C.navyDeep,
-                              border: `1px solid rgba(201,162,39,0.25)`,
+                              background: C.darkGreenDeep,
+                              border: `1px solid ${C.gold}40`,
                               boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
                             }}
                           >
@@ -274,10 +273,10 @@ export default function Navbar() {
                                   >
                                     <Icon size={17} />
                                   </span>
-                                  <span className="text-[13px] font-semibold" style={{ color: C.white }}>
+                                  <span className="text-[13px] font-semibold" style={{ color: C.cream }}>
                                     {cat.label}
                                   </span>
-                                  <span className="text-[11px] leading-tight" style={{ color: C.silver }}>
+                                  <span className="text-[11px] leading-tight" style={{ color: C.gray }}>
                                     {cat.desc}
                                   </span>
                                 </MotionLink>
@@ -288,14 +287,14 @@ export default function Navbar() {
                               onClick={() => setMegaOpen(false)}
                               className="flex flex-col items-center justify-center gap-1 rounded-xl p-3.5 text-center transition-colors"
                               style={{
-                                background: `linear-gradient(135deg, ${C.gold}22, ${C.maroon}22)`,
+                                background: `linear-gradient(135deg, ${C.gold}22, ${C.goldDark}22)`,
                                 border: `1px dashed ${C.gold}55`,
                               }}
                             >
-                              <span className="text-[13px] font-semibold" style={{ color: C.goldLight }}>
+                              <span className="text-[13px] font-semibold" style={{ color: C.gold }}>
                                 View All
                               </span>
-                              <span className="text-[11px]" style={{ color: C.silver }}>
+                              <span className="text-[11px]" style={{ color: C.gray }}>
                                 Browse everything →
                               </span>
                             </Link>
@@ -313,7 +312,7 @@ export default function Navbar() {
         {/* thin gold rule under everything */}
         <div
           className="h-[2px] w-full"
-          style={{ background: `linear-gradient(90deg, ${C.maroon}, ${C.gold} 45%, ${C.goldLight} 55%, ${C.silver})` }}
+          style={{ background: `linear-gradient(90deg, ${C.goldDark}, ${C.gold} 45%, ${C.gold} 55%, ${C.goldDark})` }}
         />
       </nav>
 
@@ -321,7 +320,7 @@ export default function Navbar() {
       <div
         className="fixed inset-0 z-50 lg:hidden transition-opacity duration-300"
         style={{
-          background: "rgba(7,18,39,0.6)",
+          background: "rgba(10,23,15,0.6)",
           opacity: open ? 1 : 0,
           pointerEvents: open ? "auto" : "none",
         }}
@@ -330,7 +329,7 @@ export default function Navbar() {
       <div
         className="fixed top-0 left-0 z-50 h-full w-[80%] max-w-xs flex flex-col transform transition-transform duration-300 ease-out lg:hidden"
         style={{
-          background: C.navyDeep,
+          background: C.darkGreenDeep,
           transform: open ? "translateX(0)" : "translateX(-100%)",
           boxShadow: "8px 0 30px rgba(0,0,0,0.4)",
         }}
@@ -346,7 +345,7 @@ export default function Navbar() {
             onClick={() => setOpen(false)}
             aria-label="Close menu"
             className="flex h-9 w-9 items-center justify-center rounded-lg"
-            style={{ color: C.goldLight }}
+            style={{ color: C.gold }}
           >
             <X size={22} />
           </button>
@@ -359,11 +358,11 @@ export default function Navbar() {
                 <button
                   onClick={() => setMobileCatOpen((v) => !v)}
                   className="w-full flex items-center justify-between rounded-lg px-3 py-3.5 text-base font-medium"
-                  style={{ color: "rgba(255,255,255,0.9)" }}
+                  style={{ color: "rgba(243,239,231,0.9)" }}
                 >
                   {item.label}
                   <motion.span animate={{ rotate: mobileCatOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                    <ChevronDown size={16} style={{ color: C.silver }} />
+                    <ChevronDown size={16} style={{ color: C.gray }} />
                   </motion.span>
                 </button>
                 <AnimatePresence>
@@ -383,7 +382,7 @@ export default function Navbar() {
                             to={cat.href}
                             onClick={() => setOpen(false)}
                             className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm"
-                            style={{ color: "rgba(255,255,255,0.75)" }}
+                            style={{ color: "rgba(243,239,231,0.75)" }}
                           >
                             <span
                               className="flex h-7 w-7 items-center justify-center rounded-md"
@@ -405,10 +404,10 @@ export default function Navbar() {
                 to={item.href}
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between rounded-lg px-3 py-3.5 text-base font-medium"
-                style={{ color: "rgba(255,255,255,0.9)" }}
+                style={{ color: "rgba(243,239,231,0.9)" }}
               >
                 {item.label}
-                <ChevronDown size={16} className="-rotate-90" style={{ color: C.silver }} />
+                <ChevronDown size={16} className="-rotate-90" style={{ color: C.gray }} />
               </Link>
             )
           )}
@@ -423,24 +422,24 @@ export default function Navbar() {
             <span
               className="flex h-10 w-10 items-center justify-center rounded-full transition-colors"
               style={{
-                background: `linear-gradient(135deg, ${C.goldLight}, ${C.gold})`,
-                color: C.navy,
+                background: `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`,
+                color: C.darkGreenDeep,
               }}
             >
               <User size={18} />
             </span>
             <span className="flex flex-col leading-tight">
-              <span className="text-sm font-semibold" style={{ color: C.white }}>
+              <span className="text-sm font-semibold" style={{ color: C.cream }}>
                 My Account
               </span>
-              <span className="text-xs" style={{ color: C.silver }}>
+              <span className="text-xs" style={{ color: C.gray }}>
                 Sign in or view profile
               </span>
             </span>
             <ChevronDown
               size={16}
               className="-rotate-90 ml-auto opacity-70 transition-transform duration-200 group-hover:translate-x-0.5"
-              style={{ color: C.silver }}
+              style={{ color: C.gray }}
             />
           </a>
         </div>

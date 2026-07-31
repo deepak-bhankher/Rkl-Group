@@ -33,16 +33,16 @@ function YoutubeIcon(props) {
   );
 }
 
-// Same red / blue / gold palette as the Navbar — for a matching premium look
+// Palette matched exactly with Home3.jsx / Navbar.jsx
 const C = {
-  navy: "#0B1B3A",
-  navyDeep: "#071227",
-  maroon: "#7A1F2B",
-  maroonDeep: "#4A2038",
-  gold: "#C9A227",
-  goldLight: "#E8C874",
   cream: "#F3EFE7",
-  gray: "#B8BCC2",
+  creamDeep: "#ECE7DC",
+  ink: "#1D1D1B",
+  gray: "#6B6B66",
+  gold: "#B08D45",
+  goldDark: "#8C6F35",
+  darkGreen: "#0E1F16",
+  darkGreenDeep: "#0A170F",
 };
 
 const QUICK_LINKS = [
@@ -67,8 +67,7 @@ export default function Footer() {
     <footer
       className="relative overflow-hidden"
       style={{
-        background:
-          "linear-gradient(100deg, #9A2338 0%, #7A1F2B 20%, #4A2038 42%, #16244A 64%, #0B1B3A 100%)",
+        background: `linear-gradient(100deg, ${C.darkGreenDeep} 0%, ${C.darkGreen} 100%)`,
         fontFamily: "Inter, system-ui, sans-serif",
       }}
     >
@@ -76,14 +75,14 @@ export default function Footer() {
       <div
         className="pointer-events-none absolute -top-16 left-0 h-56 w-96"
         style={{
-          background: "radial-gradient(circle, rgba(201,162,39,0.18), transparent 70%)",
+          background: `radial-gradient(circle, ${C.gold}30, transparent 70%)`,
           filter: "blur(20px)",
         }}
       />
       {/* thin gold rule up top, matching navbar's bottom rule */}
       <div
         className="h-[2px] w-full"
-        style={{ background: `linear-gradient(90deg, ${C.maroon}, ${C.gold} 45%, ${C.goldLight} 55%, ${C.gray})` }}
+        style={{ background: `linear-gradient(90deg, ${C.goldDark}, ${C.gold} 45%, ${C.gold} 55%, ${C.goldDark})` }}
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-14 sm:py-16">
@@ -93,7 +92,7 @@ export default function Footer() {
             <img
               src="/logo.png"
               alt="RKL Group"
-              className="h-16 sm:h-20 hover:scale-110 transition-all duration-300 w-auto object-contain mb-4 drop-shadow-[0_0_12px_rgba(201,162,39,0.35)]"
+              className="h-16 sm:h-20 hover:scale-110 transition-all duration-300 w-auto object-contain mb-4 drop-shadow-[0_0_12px_rgba(176,141,69,0.35)]"
             />
             <p
               className="text-sm leading-relaxed max-w-xs"
@@ -110,16 +109,16 @@ export default function Footer() {
                   href={href}
                   aria-label={label}
                   className="flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200"
-                  style={{ background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.16)", color: C.cream }}
+                  style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", color: C.cream }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = C.gold;
-                    e.currentTarget.style.color = C.navyDeep;
+                    e.currentTarget.style.color = C.darkGreenDeep;
                     e.currentTarget.style.borderColor = C.gold;
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,0.10)";
+                    e.currentTarget.style.background = "rgba(255,255,255,0.08)";
                     e.currentTarget.style.color = C.cream;
-                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.16)";
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)";
                   }}
                 >
                   <Icon size={17} />
@@ -132,7 +131,7 @@ export default function Footer() {
           <div>
             <h4
               className="text-sm font-bold tracking-wide mb-5"
-              style={{ color: C.goldLight }}
+              style={{ color: C.gold }}
             >
               Quick Links
             </h4>
@@ -144,7 +143,7 @@ export default function Footer() {
                     className="text-sm transition-colors duration-200"
                     style={{ color: C.cream, opacity: 0.75 }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.color = C.goldLight;
+                      e.currentTarget.style.color = C.gold;
                       e.currentTarget.style.opacity = "1";
                     }}
                     onMouseLeave={(e) => {
@@ -163,7 +162,7 @@ export default function Footer() {
           <div>
             <h4
               className="text-sm font-bold tracking-wide mb-5"
-              style={{ color: C.goldLight }}
+              style={{ color: C.gold }}
             >
               Newsletter
             </h4>
@@ -177,7 +176,7 @@ export default function Footer() {
             <form
               onSubmit={(e) => e.preventDefault()}
               className="flex w-full max-w-xs items-center rounded-full pl-5 pr-1.5 py-1.5"
-              style={{ background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.18)" }}
+              style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.16)" }}
             >
               <input
                 type="email"
@@ -190,7 +189,7 @@ export default function Footer() {
                 type="submit"
                 aria-label="Subscribe"
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-transform duration-200 hover:scale-105"
-                style={{ background: `linear-gradient(135deg, ${C.goldLight}, ${C.gold})`, color: C.navyDeep }}
+                style={{ background: `linear-gradient(135deg, ${C.gold}, ${C.goldDark})`, color: C.darkGreenDeep }}
               >
                 <ArrowRight size={16} />
               </button>
@@ -199,7 +198,7 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="w-full h-px my-10" style={{ background: "rgba(255,255,255,0.14)" }} />
+        <div className="w-full h-px my-10" style={{ background: "rgba(255,255,255,0.12)" }} />
 
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
@@ -210,7 +209,7 @@ export default function Footer() {
             className="flex items-center gap-1.5 text-xs sm:text-sm"
             style={{ color: C.cream, opacity: 0.6 }}
           >
-            Designed with <Heart size={14} style={{ color: C.goldLight }} fill={C.goldLight} />
+            Designed with <Heart size={14} style={{ color: C.gold }} fill={C.gold} />
           </p>
         </div>
       </div>

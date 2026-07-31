@@ -1,7 +1,16 @@
 import { motion } from "framer-motion";
 
-const GOLD = "#d9a441";
-const DARK = "#1a1a1a";
+// Palette matched exactly with Home3.jsx
+const C = {
+  cream: "#F3EFE7",
+  creamDeep: "#ECE7DC",
+  ink: "#1D1D1B",
+  gray: "#6B6B66",
+  gold: "#B08D45",
+  goldDark: "#8C6F35",
+  darkGreen: "#0E1F16",
+  darkGreenDeep: "#0A170F",
+};
 
 const paragraphs = [
   "We are a team of dedicated people who are looking to define the corporate gifting industry in India.",
@@ -39,7 +48,10 @@ function BrandMark() {
 
 export default function About1() {
   return (
-    <section className="w-full bg-white py-14 sm:py-20 md:py-24 px-5 sm:px-8 md:px-12 lg:px-20">
+    <section
+      className="w-full py-14 sm:py-20 md:py-24 px-5 sm:px-8 md:px-12 lg:px-20"
+      style={{ background: C.cream }}
+    >
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(220px,340px)_1fr] gap-10 lg:gap-16 items-center">
         <BrandMark />
 
@@ -49,8 +61,8 @@ export default function About1() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
-            className="text-lg sm:text-xl font-bold mb-3"
-            style={{ color: DARK }}
+            className="text-lg sm:text-xl md:text-3xl lg:text-5xl font-bold mb-3"
+            style={{ color: C.ink }}
           >
             About Us
           </motion.h2>
@@ -63,7 +75,8 @@ export default function About1() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.45, delay: i * 0.08, ease: "easeOut" }}
-                className="text-[15px] sm:text-base leading-relaxed text-gray-700"
+                className="text-[15px] sm:text-base leading-relaxed"
+                style={{ color: C.gray }}
               >
                 {p}
               </motion.p>
