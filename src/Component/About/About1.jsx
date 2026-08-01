@@ -3,13 +3,8 @@ import { motion } from "framer-motion";
 // Palette matched exactly with Home3.jsx
 const C = {
   cream: "#F3EFE7",
-  creamDeep: "#ECE7DC",
   ink: "#1D1D1B",
   gray: "#6B6B66",
-  gold: "#B08D45",
-  goldDark: "#8C6F35",
-  darkGreen: "#0E1F16",
-  darkGreenDeep: "#0A170F",
 };
 
 const paragraphs = [
@@ -22,66 +17,38 @@ const paragraphs = [
   "Let's look forward to a bright future together and be the best of what we do!",
 ];
 
-
-function BrandMark() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.85, y: 12 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.5 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="flex items-center justify-center lg:justify-start"
-    >
-      <motion.img
-        src="/logo.png"
-        alt="Urban Gear Logo"
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 200, damping: 12 }}
-        className="w-32 h-32 sm:w-36 sm:h-36 lg:w-44 lg:h-44 object-contain select-none"
-        draggable={false}
-      />
-    </motion.div>
-  );
-}
-
-
-
 export default function About1() {
   return (
     <section
       className="w-full py-14 sm:py-20 md:py-24 px-5 sm:px-8 md:px-12 lg:px-20"
       style={{ background: C.cream }}
     >
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(220px,340px)_1fr] gap-10 lg:gap-16 items-center">
-        <BrandMark />
+      <div className="max-w-5xl mx-auto">
+        <motion.h2
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center"
+          style={{ color: C.ink }}
+        >
+          About Us
+        </motion.h2>
 
-        <div>
-          <motion.h2
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
-            className="text-lg sm:text-xl md:text-3xl lg:text-5xl font-bold mb-3"
-            style={{ color: C.ink }}
-          >
-            About Us
-          </motion.h2>
-
-          <div className="space-y-3 sm:space-y-4">
-            {paragraphs.map((p, i) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.45, delay: i * 0.08, ease: "easeOut" }}
-                className="text-[15px] sm:text-base leading-relaxed"
-                style={{ color: C.gray }}
-              >
-                {p}
-              </motion.p>
-            ))}
-          </div>
+        <div className="space-y-4">
+          {paragraphs.map((p, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: i * 0.08 }}
+              className="text-[15px] sm:text-base leading-relaxed text-center"
+              style={{ color: C.gray }}
+            >
+              {p}
+            </motion.p>
+          ))}
         </div>
       </div>
     </section>

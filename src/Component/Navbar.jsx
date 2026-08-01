@@ -136,19 +136,13 @@ export default function Navbar() {
             {/* Logo */}
             <a
               href="#"
-              className="relative flex items-center justify-center h-16 w-16 sm:h-[68px] sm:w-[68px] shrink-0 py-1.5"
+              className="relative flex items-center justify-center  shrink-0 py-1.5"
             >
-              <span
-                className="absolute inset-1 rounded-full"
-                style={{
-                  border: `1px solid ${C.gold}35`,
-                  boxShadow: `0 0 0 1px rgba(0,0,0,0.2) inset, 0 0 18px ${C.gold}22`,
-                }}
-              />
+              
               <motion.img
                 src="/logo.png"
                 alt="Company Logo"
-                className="relative h-full w-full object-contain p-1.5 drop-shadow-[0_0_10px_rgba(228,201,122,0.4)]"
+                className="relative text-white h-16 sm:h-20 object-contain p-1.5 drop-shadow-[0_0_10px_rgba(228,201,122,0.4)]"
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: [0, -3, 0] }}
                 transition={{
